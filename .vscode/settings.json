@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"mlx42.h": "c"
+		"mlx42.h": "c",
+		"map_parse.h": "c",
+		"libft.h": "c",
+		"stdlib.h": "c"
 	}
 }
