@@ -12,77 +12,103 @@
 
 #include "map_parse.h"
 
-int map_all_same_size(t_map_proto map_proto, size_t size[2])
+// private functions:
+int				_map_all_same_size(t_map *map);
+int				_map_has_required(t_map *map);
+int				_map_surrounded(t_map *map);
+int				_map_has_path(t_map *map);
+
+int _map_all_same_size(t_map *map)
 {
-	int i;
+	size_t i;
 	size_t width;
 
 	i = 1;
-	width = ft_strlen(map_proto[0]);
-	width += 1 * (map_proto[0][width] == '\n');
-	while (map_proto[i])
+	while (map->map[i])
 	{
-		if (ft_strlen(map_proto[i]) != width)
-			return (1);
+		width = ft_strlen(map->map[i]);
+		width -= 1 * (map->map[i][width - 1] == '\n');
+		if (width != map->width)
+			return (0);
 		i++;
 	}
-	size[0] = width;
-	size[1] = i;
-	return (0);
+	return (1);
 }
 
-int	map_has_required(t_map_proto map_proto, int *flags, size_t size[2])
+int _map_has_walls(t_map *map)
 {
-	char	*p;
-	int 	i;
+	size_t i;
+	char *p;
 
 	i = 0;
-	while (map_proto[i])
+	while (map->map[i])
 	{
-		p = map_proto[i];
-		while (*p)
-		{
-			if (!ft_strchr(MAP_CHARSET, *p))
-				return (1);
-			if (*p == MAP_PLAYER && (*flags & 1) != 1)
-				*flags |= 1;
-			else if (*p == MAP_PLAYER && (*flags & 1) == 1)
-				return (1);
-			if (*p == MAP_EXIT && (*flags & 2) != 2)
-				*flags |= 2;
-			else if (*p == MAP_EXIT && (*flags & 2) != 2)
-				return (1);
-			*flags |= 4 * (*p == MAP_COLLECTIBLE);
-			*flags |= 8 * (*p == MAP_EXIT);
-		}
+		if (map->map[i][0] != MAP_WALL || map->map[i][map->width - 1] != MAP_WALL)
+			return (0);
+		i++;
 	}
-	return (0);
+	if (ft_strncmp(map->map[0], map->map[map->height - 1], map->width))
+		return (0);
+	p = malloc(map->width + 1);
+	if (!p)
+		return (0);
+	ft_memset(p, MAP_WALL, map->width);
+	p[map->width] = 0;
+	if (ft_strncmp(map->map[0], p, map->width))
+		return (free(p), 0);
+	return (free(p), 1);
 }
 
-int		map_surrounded(t_map_proto map_proto, size_t size[2])
+t_position *create_position(size_t y, size_t x)
 {
-	size_t	size; // size of the list
-	size_t	len; // len of the lines
-	char	*temp;
+	t_position *pos;
 
-	size = 0;
-	len = ft_strlen(map_proto[0]) - (1 * (map_proto[0][len] == '\n'));
-	while (map_proto[size])
+	pos = malloc(sizeof(t_position));
+	if (!pos)
+		return (0);
+	pos->y = y;
+	pos->x = x;
+	return (pos);
+}
+
+int _map_has_requred(t_map *map)
+{
+	int flags;
+	size_t i;
+	size_t j;
+
+	i = 1;
+	flags = 0;
+	while(map->map[i] && i < map->height)
 	{
-		if (map_proto[size][0] != MAP_WALL)
-			return (1);
-		if (map_proto[size][0] != map_proto[size][len])
-			return (1);
-		size++;
+		j = 1;
+		while(map->map[i][j] && j < map->width - 1)
+		{
+			if ((map->map[i][j] == MAP_PLAY && (flags & 1)) ||
+				(map->map[i][j] == MAP_EXIT && (flags & 2)))
+					return (0);
+			if (map->map[i][j] == MAP_PLAY && (flags |= 1))
+				map->player = (t_position){i, j};
+			if (map->map[i][j] == MAP_EXIT && (flags |= 2))
+				map->exit = (t_position){i, j};
+			if (map->map[i][j] == MAP_COIN && map->coin_count++)
+				ft_lstadd_back(&map->coins, ft_lstnew(create_position(i, j)));
+			j++;
+		}
+		i++;
 	}
-	if (ft_strncmp(map_proto[0], map_proto[size - 1], len))
-		return (1);
-	temp = malloc(len + 1);
-	if (!temp)
-		return (1);
-	ft_memset(temp, MAP_WALL, len);
-	temp[len] = 0;
-	if (ft_strncmp(map_proto[0], temp, len))
-		return (free(temp), 1);
-	return (free(temp), 0);
+	return ((flags | (4 * !!map->coin_count)) == 7);
+}
+
+int _validate_map(t_map *map)
+{
+	if (!_map_all_same_size(map))
+		return (0);
+	if (!_map_has_walls(map))
+		return (0);
+	if (!_map_has_requred(map))
+		return (map->coin_count = 0, 0);
+	if (!_map_has_path(map))
+		return (0);
+	return (1);
 }

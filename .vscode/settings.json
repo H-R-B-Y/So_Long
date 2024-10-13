@@ -3,6 +3,7 @@
 		"mlx42.h": "c",
 		"map_parse.h": "c",
 		"libft.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"dijkstra.h": "c"
 	}
 }

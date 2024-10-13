@@ -17,7 +17,7 @@ all:			libmlx $(LIBFT) $(NAME)
 
 $(LIBFT):
 		
-		$(MAKE) --directory $(LIBFT_DIR)
+		$(MAKE) --directory $(LIBFT_DIR) bonus
 
 libmlx:
 		

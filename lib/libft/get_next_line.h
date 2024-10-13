@@ -41,4 +41,6 @@ char	*get_next_line(int fd);
 
 char	*fancy_str_join( char *s1, char *s2, int flag);
 
+void	*zeroit(void *ptr, size_t size);
+
 #endif
