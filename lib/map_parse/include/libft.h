@@ -207,7 +207,4 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *)
 					);
 
-// Returns: the list item at index in lst
-t_list			*ft_lstget(t_list *lst, size_t index);
-
 #endif

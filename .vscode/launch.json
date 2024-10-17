@@ -8,7 +8,7 @@
         "type": "cppdbg",
         "request": "launch",
         "program": "${fileDirname}/${fileBasenameNoExtension}.out",
-        "args": ["/home/herb/42work/so_long/src/map_parse/test/test_maps/valid2"],
+        "args": ["/home/herb/42work/so_long/src/map_parse/test/test_maps/valid1"],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
         "environment": [],
@@ -25,7 +25,6 @@
                 "text": "-gdb-set disassembly-flavor intel",
                 "ignoreFailures": true
             }
-        ],
-        "preLaunchTask": "My Makefile"
+        ]
     }]
 }

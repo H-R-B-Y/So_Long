@@ -2,7 +2,7 @@ NAME		= libft.a
 HEADER		= libft.h
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g3 -O0
+CFLAGS		= -Wall -Wextra -Werror
 AR			= ar rc
 
 SRC			= ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
@@ -17,7 +17,7 @@ OBJ			= $(SRC:.c=.o)
 
 BSRC		= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c \
 			ft_lstadd_back_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
+			ft_lstmap_bonus.c ft_lstget_bonus.c
 BOBJ		= $(BSRC:.c=.o)
 
 all:		$(NAME) bonus

@@ -1,9 +1,9 @@
 
 NAME			:= test
 CFLAGS			:= -Wextra -Wall -Werror
-LIBMLX			:= ./lib/MLX42
-
 HEADERS			:= -I ./include -I $(LIBMLX)/include
+
+LIBMLX			:= ./lib/MLX42
 LIBS			:= $(LIBMLX)/build/libmlx42.a -ldl `pkg-config --libs glfw3` -pthread -lm
 
 LIBFT_DIR		= lib/libft

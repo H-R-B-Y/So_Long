@@ -42,11 +42,10 @@ char	*fancy_str_join( char *s1, char *s2, int flag)
 
 void	*zeroit(void *ptr, size_t size)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < size)
 		((char *)ptr)[i++] = 0;
 	return (ptr);
 }
-
