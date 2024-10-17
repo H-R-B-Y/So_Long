@@ -42,8 +42,8 @@
  */
 
 // Aspect ratio 16:9
-# define VIEWPORT_WIDTH (16 * 2)
-# define VIEWPORT_HEIGHT (9 * 2)
+# define VIEWPORT_WIDTH (16)
+# define VIEWPORT_HEIGHT (9)
 
 typedef struct s_viewport t_viewport;
 
