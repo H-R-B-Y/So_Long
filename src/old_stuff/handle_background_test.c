@@ -32,9 +32,9 @@ typedef struct viewport_s
 	int			**fore_instances;
 	int			**map;
 	double			re_draw_delta;
-}	t_viewport;
+}	t_viewprt;
 
-int _draw_fore_back(t_viewport *viewport, size_t scale_y, size_t scale_x)
+int _draw_fore_back(t_viewprt *viewport, size_t scale_y, size_t scale_x)
 {
 	size_t x;
 	size_t y;
@@ -61,15 +61,15 @@ int _draw_fore_back(t_viewport *viewport, size_t scale_y, size_t scale_x)
 	return (1);
 }
 
-t_viewport *init_viewport(mlx_t *mlx, char *foreground_path, char *background_path)
+t_viewprt *init_viewport(mlx_t *mlx, char *foreground_path, char *background_path)
 {
-	t_viewport *viewport;
+	t_viewprt *viewport;
 	mlx_texture_t *foreground;
 	mlx_texture_t *background;
 
 	if (!mlx || !foreground_path || !background_path)
 		return (0);
-	viewport = zeroit(malloc(sizeof(t_viewport)), sizeof(t_viewport));
+	viewport = zeroit(malloc(sizeof(t_viewprt)), sizeof(t_viewprt));
 	if (!viewport)
 		return (0);
 	viewport->mlx = mlx;
@@ -99,7 +99,7 @@ t_viewport *init_viewport(mlx_t *mlx, char *foreground_path, char *background_pa
 
 // ASSUMES the map is drawable
 // Need to write a function that can convert a dijkstra map to a viewport map;
-void draw_viewport(t_viewport *viewport, int **map)
+void draw_viewport(t_viewprt *viewport, int **map)
 {
 	size_t x;
 	size_t y;
@@ -122,7 +122,7 @@ void draw_viewport(t_viewport *viewport, int **map)
 	}
 }
 
-void destroy_viewport(t_viewport *viewport)
+void destroy_viewport(t_viewprt *viewport)
 {
 	size_t y;
 
@@ -140,7 +140,7 @@ void destroy_viewport(t_viewport *viewport)
 	free(viewport);
 }
 
-void re_draw(int **map, t_viewport *viewport)
+void re_draw(int **map, t_viewprt *viewport)
 {
 	size_t y = 0;
 	size_t x;
@@ -159,7 +159,7 @@ void re_draw(int **map, t_viewport *viewport)
 
 void loop_hook (void *param)
 {
-	t_viewport *viewport = (t_viewport *)param;
+	t_viewprt *viewport = (t_viewprt *)param;
 	
 	viewport->re_draw_delta += viewport->mlx->delta_time;
 	if (viewport->re_draw_delta > 0.5)
@@ -174,7 +174,7 @@ int main ()
 {
 	mlx_t *mlx = mlx_init(1600, 900, "Anim engine test", false);
 
-	t_viewport *viewport = init_viewport(mlx, FG_PNG, BG_PNG);
+	t_viewprt *viewport = init_viewport(mlx, FG_PNG, BG_PNG);
 	int **map = malloc(sizeof(int *) * 9);
 	size_t y = 0;
 	size_t x;

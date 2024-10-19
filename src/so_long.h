@@ -24,73 +24,83 @@
 
 # include "../include/MLX42.h"
 # include "../include/libft.h"
-
 # include "../include/dijkstra.h"
 # include "../include/dijkstra_debug.h"
 # include "../include/map_parse.h"
-
 # include "../include/anim_engine.h"
-
-
-
-
-
 # include "viewport/viewport.h"
+# include "viewport/view_ob_mlx_inst/viewport_obj_inst.h"
+# include "viewport/view_obj_anim_obj/view_obj_anim.h"
 # include "utils/utils.h"
 
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 
-typedef struct s_so_long
+
+/**
+ * @brief Structure to hold the game state.
+ * @param mlx MLX42 instance.
+ * @param map map to display.
+ * @param view viewport to display the map.
+ * @param anim_engine animation engine.
+ * @param player_pos position of the player.
+ * @param coins The coins that have been collected.
+ * @param steps number of steps taken.
+ * 
+ */
+typedef struct s_game t_game;
+
+/**
+ * @brief Enumeration of game states.
+ * 
+ * States are:
+ * - GAME_STATE_TITLE: Title screen.
+ * - GAME_STATE_PAUSED: Game is paused.
+ * - GAME_STATE_PLAYING: Game is being played.
+ * - GAME_STATE_WON: Game has been won.
+ * - GAME_STATE_END: Game has ended.
+ */
+typedef enum e_game_state t_game_state;
+
+enum e_game_state
+{
+	GAME_STATE_TITLE,
+	GAME_STATE_PAUSED,
+	GAME_STATE_PLAYING,
+	GAME_STATE_WON,
+	GAME_STATE_END
+};
+
+struct s_game
 {
 	mlx_t			*mlx;
 	t_map			*map;
-	t_anim_engine	*engine;
+	t_viewprt		*view;
+	t_anim_engine	*anim_engine;
+	t_position		player_pos;
+	t_list			*coins;
+	size_t			steps;
+	t_game_state	state;
+};
 
-	size_t			player_moves;
-	size_t			coin_count;
-	t_position		**coins_collected;
+int		init_game(t_game *game);
+int		init_game_map(t_game *game, char *map_path);
+int		init_hooks(t_game *game);
+void	cleanup_game(t_game *game);
 
-	t_position		player;
-
-	t_viewport		*viewport;
-
-	int				(*is_walkable)(t_map *, t_position);
-	int				(*is_collectable)(t_map *, t_position);
-	int 			(*is_exit)(t_map *, t_position); // check for win condition
-
-	int				paused;
-	
-}	t_so_long;
 
 /*
-I think the best way to go about the viewport would be to have two tiled grids containing the background and the walls
-we can then enable/disable the walls as needed to create the viewport effect
-a move function can determine weather there is enough space to move the viewport or the player
-all coins will be loaded but enabled/disabled when within the viewport, though we need to keep track of the collected coins so as to not re-enable them
-
-if the map is not large enough to fill the viewport then we can just center the map in the viewport
-
-
-Enemy patrol for bonus can be dealt with in another submodule, this could utilise the pathfinding algorithm to determine the shortest path to the player??? maybe
-
-Displaying the movement count on screen for the bonus should be easy enough.
+So the coins will just be animation objects for "coins spinning"
+The player will be a viewport object, but animations will be handled seperatly.
+The exit will be a viewport object, animation will be handled seperatly.
 */
 
-/*
-To Do:
-- figure out the best way to draw the map
-- figure out the best way to handle the viewport and resizing of the window etc.
-- implement the movement of the player
-- implement the collection of coins
-- implement the win condition and win screen????
-- ART
-- ensure no leaks
-- implement patrol for bonus
-- implement movement count for bonus
-- add a pause screen
-- add a home screen?????
-*/
+int		init_exit(t_game *game);
+int		init_coins(t_game *game);
+int		init_player(t_game *game);
+int		init_sprites(t_game *game);
+
 
 #endif

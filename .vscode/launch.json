@@ -26,5 +26,30 @@
                 "ignoreFailures": true
             }
         ]
-    }]
+    },
+	{
+		"name": "Run so_long",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "so_long.out",
+		"args": ["lib/map_parse/test/test_maps/valid1"],
+		"stopAtEntry": false,
+		"cwd": "${workspaceFolder}",
+		"environment": [],
+		"externalConsole": false,
+		"MIMode": "gdb",
+		"setupCommands": [
+			{
+				"description": "Enable pretty-printing for gdb",
+				"text": "-enable-pretty-printing",
+				"ignoreFailures": true
+			},
+			{
+				"description": "Set Disassembly Flavor to Intel",
+				"text": "-gdb-set disassembly-flavor intel",
+				"ignoreFailures": true
+			}
+		],
+		"preLaunchTask": "Make so_long"
+	}]
 }

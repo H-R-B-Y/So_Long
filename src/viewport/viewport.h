@@ -42,33 +42,29 @@
  */
 
 // Aspect ratio 16:9
-# define VIEWPORT_WIDTH (16)
-# define VIEWPORT_HEIGHT (9)
+# define VIEWPORT_WIDTH (15)
+# define VIEWPORT_HEIGHT (9 * 1)
 
-typedef struct s_viewport t_viewport;
+typedef struct s_viewport t_viewprt;
 
 struct s_viewport
 {
 	mlx_t		*mlx;
-	size_t		tile_size[2];
+	t_position	tile_size;
 	t_position	view_offset;
-
 	t_position	viewport_size;
-
-	int			map_smaller;
+	t_position	map_smaller;
 	t_position	map_offset;
-
 	t_map		*map;
-
 	mlx_image_t	*bg_img;
 	char		*bg_path;
 	mlx_image_t	*fg_img;
 	char		*fg_path;
 	int			**fg_matrix;
-
 	t_list		*objects;
 	int			need_redraw;
-
+	t_position (*map_to_screen)(t_viewprt *view, t_position pos);
+	t_position (*screen_to_map)(t_viewprt *view, t_position pos);
 };
 
 /**
@@ -77,7 +73,7 @@ struct s_viewport
  * @param path path to the background image
  * @return pointer to the background image if successful, 0 if not
  */
-mlx_image_t	*init_background(t_viewport *view, char *path);
+mlx_image_t	*init_background(t_viewprt *view, char *path);
 
 /**
  * @brief Initialize the foreground
@@ -86,7 +82,7 @@ mlx_image_t	*init_background(t_viewport *view, char *path);
  * @return pointer to the foreground image if successful, 0 if not
  * This will draw the foreground on top of the background
  */
-mlx_image_t	*init_foreground(t_viewport *view, char *path);
+mlx_image_t	*init_foreground(t_viewprt *view, char *path);
 
 /**
  * @brief Initialize the viewport
@@ -95,27 +91,54 @@ mlx_image_t	*init_foreground(t_viewport *view, char *path);
  * @param textures array of paths to textures
  * @return pointer to the viewport if successful, 0 if not
  */
-t_viewport	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2]);
+t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2]);
 
 /**
  * @brief Destroy the viewport
  * @param view viewport to destroy
  */
-void		destroy_viewport(t_viewport *view);
+void		destroy_viewport(t_viewprt *view);
 
 /**
  * @brief Draw the viewport
  * @param view viewport to draw
  * @return 1 if successful, 0 if not
  */
-int			draw_viewport(t_viewport *view);
+int			draw_viewport(t_viewprt *view);
 
 /**
  * @brief Calculate the viewport size
  * @param view viewport to calculate the size for
  * @param size new viewport size
  */
-int			calc_view_size(t_viewport *view, t_position size);
+int			calc_view_size(t_viewprt *view, t_position size);
+
+/**
+ * @brief translate map position to screen position
+ * @param view viewport to translate for
+ * @param pos position on the map
+ */
+t_position	view_map_to_scrn(t_viewprt *view, t_position pos);
+
+/**
+ * @brief translate screen position to map position
+ * @param view viewport to translate for
+ * @param pos position on the screen
+ */
+t_position	view_scrn_to_map(t_viewprt *view, t_position pos);
+
+/**
+ * @brief Get the iterator for the viewport
+ * @param view viewport to get the iterator for
+ * @return position iterator
+ */
+t_position	view_iterator(t_viewprt *view);
+
+/**
+ * @brief MLX hook for drawing the viewport.
+ * @param param pointer to the viewport
+ */
+void	draw_viewport_hook(void *param);
 
 /*
 ██╗███╗   ██╗███████╗████████╗      
@@ -142,14 +165,14 @@ int			calc_view_size(t_viewport *view, t_position size);
  * @note Check players current offset before this point (offset needs to be reduced to 0 before moving)
  * @note Direction should be normalized
  */
-void			move_viewport(t_viewport view, t_position direction);
+void			move_viewport(t_viewprt view, t_position direction);
 
-void		move_matrix(t_viewport *view,
+void		move_matrix(t_viewprt *view,
 				mlx_image_t *parent,
 				int **instance_matrix,
 				int depth);
-void		free_instance_matrix(int **instances, t_position size);
-int			**create_instance_matrix(mlx_t *mlx,
+void		free_inst_matrix(int **instances, t_position size);
+int			**create_inst_matrix(mlx_t *mlx,
 				mlx_image_t	*img,
 				t_position	size);
 
@@ -186,10 +209,11 @@ typedef int (*t_view_obj_disable)(t_view_obj *obj, struct s_viewport *view);
 struct s_view_obj
 {
 	t_position			pos; // Position on the map
+	int					depth; // Depth of the object	
 	void				*data;
 	t_view_obj_enable	enable;
 	t_view_obj_disable	disable;
-	void				(*destroy)(void *obj);
+	void				(*destroy)(void *data, t_viewprt *view);
 };
 
 /**
@@ -212,7 +236,7 @@ t_view_obj	*create_viewport_obj(t_position pos,
  * @return 1 if successful, 0 if not
  * @note The object will be added to the end of the list
  */
-int			view_add_obj(t_viewport *view, t_view_obj *obj);
+int			view_add_obj(t_viewprt *view, t_view_obj *obj);
 
 /**
  * @warning Make sure obj has the correct destroy function
@@ -223,13 +247,13 @@ int			view_add_obj(t_viewport *view, t_view_obj *obj);
  * @note The object will be deleted from the list
  * @note The object and it's data will be destroyed
  */
-int			view_del_obj(t_viewport *view, t_view_obj *obj);
+int			view_del_obj(t_viewprt *view, t_view_obj *obj);
 
 /**
  * @brief Draw objects that are in the viewport
  * @param view Pointer to the viewport
  * @return 1 if successful, 0 if not
  */
-int			viewport_draw_objects(t_viewport *view);
+int			viewport_draw_objects(t_viewprt *view);
 
-#endif 
+#endif

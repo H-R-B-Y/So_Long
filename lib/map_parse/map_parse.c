@@ -21,6 +21,10 @@
  */
 int	_validate_map(t_map *map);
 
+
+/**
+ * @warning This doesn'y handle read errors!!!!!
+ */
 t_map_proto	map_proto_read(int fd)
 {
 	t_map_proto	map_proto;

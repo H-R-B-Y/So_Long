@@ -12,13 +12,7 @@
 
 #include "viewport.h"
 
-t_position min_pos(t_position a, t_position b)
-{
-	return ((t_position){a.y < b.y ? a.y : b.y,
-			a.x < b.x ? a.x : b.x});
-}
-
-void	free_instance_matrix(int **instances, t_position size)
+void	free_inst_matrix(int **instances, t_position size)
 {
 	t_position	iter;
 
@@ -27,7 +21,7 @@ void	free_instance_matrix(int **instances, t_position size)
 		free(instances[iter.y++]);
 	free(instances);
 }
-void	move_matrix(t_viewport *view,
+void	move_matrix(t_viewprt *view,
 	mlx_image_t *parent,
 	int **instance_matrix,
 	int depth)
@@ -35,7 +29,7 @@ void	move_matrix(t_viewport *view,
 	t_position	iter;
 	t_position	size;
 
-	size = min_pos(view->viewport_size, view->map->size);
+	size = view_iterator(view);
 	iter = (t_position){0, 0};
 	while (iter.y < size.y)
 	{
@@ -44,18 +38,17 @@ void	move_matrix(t_viewport *view,
 		{
 			set_intance_pos(
 				&parent->instances[instance_matrix[iter.y][iter.x]],
-				(t_position){
-					view->map_offset.y
-						+ (iter.y * view->tile_size[0]),
-					view->map_offset.x
-						+ (iter.x * view->tile_size[1])}, depth);
+				view_map_to_scrn(
+					view,
+					(t_position){iter.y, iter.x}
+				), depth);
 			iter.x++;
 		}
 		iter.y++;
 	}
 }
 
-int	**create_instance_matrix(mlx_t *mlx,
+int	**create_inst_matrix(mlx_t *mlx,
 	mlx_image_t	*img,
 	t_position	size
 	)
@@ -71,7 +64,7 @@ int	**create_instance_matrix(mlx_t *mlx,
 	{
 		instances[iter.y] = malloc(sizeof(int) * size.x);
 		if (!instances[iter.y])
-			return (free_instance_matrix(instances,
+			return (free_inst_matrix(instances,
 					(t_position){iter.y, size.x}), (void *)0);
 		iter.x = 0;
 		while (iter.x < size.x)
@@ -79,7 +72,7 @@ int	**create_instance_matrix(mlx_t *mlx,
 			instances[iter.y][iter.x]
 				= mlx_image_to_window(mlx, img, 0, 0);
 			if (instances[iter.y][iter.x++] < 0)
-				return (free_instance_matrix(instances,
+				return (free_inst_matrix(instances,
 						(t_position){iter.y, size.x}), (void *)0);
 		}
 		iter.y++;

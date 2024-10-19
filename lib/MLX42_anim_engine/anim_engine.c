@@ -16,7 +16,8 @@ t_anim_engine	*anim_engine_init(mlx_t *mlx)
 {
 	t_anim_engine	*engine;
 
-	engine = (t_anim_engine *)malloc(sizeof(t_anim_engine));
+	engine = zeroit(malloc(sizeof(t_anim_engine)),
+			sizeof(t_anim_engine));
 	if (!engine)
 		return (0);
 	engine->sprite_list = 0;

@@ -31,6 +31,8 @@ t_frame_list	create_frame_list(t_list *image_list, mlx_t *mlx)
 	t_frame_list	this_frame;
 	t_frame			*frame;
 
+	if (!image_list)
+		return (0);
 	list = ft_lstmap(image_list, frame_from_image, free);
 	if (!list)
 		return (0);

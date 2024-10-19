@@ -56,7 +56,8 @@ typedef struct s_position
  * @param map 2D char array containing the map
  * @param map[y][x] is the character at position x, y
  */
-typedef struct s_map
+typedef struct s_map t_map;
+struct s_map
 {
 	size_t		width;
 	size_t		height;
@@ -66,7 +67,7 @@ typedef struct s_map
 	size_t		coin_count;
 	t_list		*coins;
 	t_map_proto	map;
-}	t_map;
+};
 
 //	Prototypes
 

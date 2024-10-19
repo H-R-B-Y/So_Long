@@ -23,6 +23,12 @@ t_anim_sprite	*anim_sprite_create(t_anim_engine *engine,
 		return (0);
 	sprite->frame_list = frame_list;
 	sprite->frame_count = ft_lstsize(frame_list);
+	if (!sprite->frame_count)
+	{
+		destroy_frame_list(frame_list);
+		free(sprite);
+		return (0);
+	}
 	sprite->frame_duration = frame_duration;
 	sprite->enabled = 0;
 	ft_lstadd_back(&engine->sprite_list, ft_lstnew(sprite));

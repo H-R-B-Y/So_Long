@@ -210,4 +210,14 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 // Returns: the list item at index in lst
 t_list			*ft_lstget(t_list *lst, size_t index);
 
+/**
+ * @brief Function to iterate over a list with a parameter
+ * @param lst Pointer to the list
+ * @param f Function to apply to the content of each list item
+ * @param param Parameter to pass to the function
+ */
+void			ft_lstiter_param_bonus(t_list *lst,
+					void (*f)(t_list *, void *),
+					void *param);
+
 #endif

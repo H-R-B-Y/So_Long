@@ -21,7 +21,19 @@ LIBMLX_DIR		:= $(abspath $(LIB_DIR)/MLX42)
 LIBMLX			:= $(LIBMLX_DIR)/build/libmlx42.a
 LIBFLAGS		:=  -ldl `pkg-config --libs glfw3` -pthread -lm
 
-SRCS 			:= ../instance_matrix.c ../viewport_init.c ../viewport_utils.c ../../utils/image_from_path.c ../../utils/set_instance_pos.c ../../utils/clamp.c
+SRCS 			:= ../instance_matrix.c \
+				../viewport_init.c \
+				../viewport_utils.c \
+				../../utils/min_max_pos.c \
+				../../utils/image_from_path.c \
+				../../utils/set_instance_pos.c \
+				../viewport_obj_init.c \
+				../viewport_obj_utils.c \
+				../../utils/clamp.c \
+				../view_ob_mlx_inst/viewport_obj_inst.c \
+				../view_obj_anim_obj/view_obj_anim.c \
+				../view_obj_anim_obj/sprite_init_wrapper.c \
+				../viewport_translate.c
 OBJS			:= ${SRCS:.c=.o}
 
 all: $(NAME)
@@ -54,10 +66,10 @@ clean:
 		$(MAKE) --directory $(ANIM_ENGINE_DIR) clean
 		$(MAKE) --directory $(MAP_PARSE_DIR) clean
 		$(MAKE) --directory $(DIJKSTRA_DIR) clean
-		rm -rf $(LIBMLX_DIR)/build
 		rm -rf $(OBJS)
 
 fclean: clean
+		rm -rf $(LIBMLX_DIR)/build
 		$(MAKE) --directory $(LIBFT_DIR) fclean
 		$(MAKE) --directory $(ANIM_ENGINE_DIR) fclean
 		$(MAKE) --directory $(MAP_PARSE_DIR) fclean

@@ -19,10 +19,52 @@
 # include <stdlib.h>
 
 
+/**
+ * @brief Structure to hold a frame.
+ * @param image MLX image for the frame.
+ * @param instance The index in the instance list of this sprite.
+ */
 typedef struct	s_frame t_frame;
+
+/**
+ * @brief Structure to hold an animated sprite.
+ * @param frame_list The list of frames to animate.
+ * @param frame_count The number of frames in the list.
+ * @param current_frame The index of the current frame.
+ * @param frame_duration The duration of each frame.
+ * @param frame_timer The time since the last frame change.
+ * @param x The x position of the sprite.
+ * @param y The y position of the sprite.
+ * @param z The z position of the sprite or depth.
+ * @param enabled Whether the sprite is enabled.
+ * @param loop_enabled Whether the loop is enabled.
+ * @param finished Whether the animation is finished (only when loop disabled).
+ * @param loop The loop function.
+ * @param context Additional data, if needed.
+ */
 typedef struct	s_anim_sprite t_anim_sprite;
+
+/**
+ * @brief Internal function to create a frame from an image.
+ * @param sprite_list The list of currently animated sprites.
+ * @param mlx The MLX instance handle.
+ * @param paused Whether the engine is paused.
+ */
 typedef size_t	(*t_loop_type)(t_anim_sprite *sprite);
+
+/**
+ * @brief Structure to hold a frame.
+ * @param image MLX image for the frame.
+ * @param instance The index in the instance list of this sprite.
+ */
 typedef t_list	*t_frame_list;
+
+/**
+ * @brief Internal function to create a frame from an image.
+ * @param sprite_list The list of currently animated sprites.
+ * @param mlx The MLX instance handle.
+ * @param paused Whether the engine is paused.
+ */
 typedef struct	s_anim_engine t_anim_engine;
 
 /**

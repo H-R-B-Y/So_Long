@@ -21,18 +21,20 @@ t_view_obj	*create_viewport_obj(t_position pos,
 
 	if (!data)
 		return (0);
-	view_obj = malloc(sizeof(t_view_obj));
+	view_obj = zeroit(malloc(sizeof(t_view_obj)),
+		sizeof(t_view_obj));
 	if (!view_obj)
 		return (0);
 	view_obj->pos = pos;
 	view_obj->data = data;
 	view_obj->enable = enable;
 	view_obj->disable = disable;
-	view_obj->destroy = free;
+	view_obj->depth = 3; // default to 3
+	view_obj->destroy = 0;
 	return (view_obj);
 }
 
-int	view_add_obj(t_viewport *view, t_view_obj *obj)
+int	view_add_obj(t_viewprt *view, t_view_obj *obj)
 {
 	if (!view || !obj)
 		return (0);
@@ -40,17 +42,17 @@ int	view_add_obj(t_viewport *view, t_view_obj *obj)
 	return (1);
 }
 
-static void	view_obj_destroy(t_view_obj *obj)
+static void	view_obj_destroy(t_viewprt *view, t_view_obj *obj)
 {
 	if (obj)
 	{
 		if (obj->destroy)
-			obj->destroy(obj->data);
+			obj->destroy(view, obj->data);
 		free(obj);
 	}
 }
 
-int	view_del_obj(t_viewport *view, t_view_obj *obj)
+int	view_del_obj(t_viewprt *view, t_view_obj *obj)
 {
 	t_list *index;
 	t_list *prev;
@@ -67,7 +69,7 @@ int	view_del_obj(t_viewport *view, t_view_obj *obj)
 				prev->next = index->next;
 			else
 				view->objects = index->next;
-			view_obj_destroy(obj);
+			view_obj_destroy(view, obj);
 			free(index);
 			return (1);
 		}
