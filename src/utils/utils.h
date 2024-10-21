@@ -31,4 +31,6 @@ void		set_intance_pos(mlx_instance_t *instance, t_position pos, int depth);
 
 int			clamp(int value, int min, int max);
 
+void		destroy_image_lst(mlx_t *mlx, t_list *lst);
+
 #endif

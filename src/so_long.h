@@ -64,6 +64,22 @@ typedef struct s_game t_game;
  */
 typedef enum e_game_state t_game_state;
 
+/**
+ * @brief Structure to hold the player.
+ * 
+ * Note that directions are as follows:
+ * - 0: Up / North
+ * - 1: Right / East
+ * - 2: Down / South
+ * - 3: Left / West
+ * Direction frames are stored in order.
+ * 
+ * @param pos position of the player.
+ * @param direction_frames list of frames for each direction.
+ * @param current_direction current direction of the player.
+ */
+typedef struct s_player t_player;
+
 enum e_game_state
 {
 	GAME_STATE_TITLE,
@@ -73,17 +89,28 @@ enum e_game_state
 	GAME_STATE_END
 };
 
+struct s_player
+{
+	t_position	pos;
+	t_list		*direction_frames;
+	int			current_direction;
+};
+
 struct s_game
 {
 	mlx_t			*mlx;
 	t_map			*map;
 	t_viewprt		*view;
 	t_anim_engine	*anim_engine;
-	t_position		player_pos;
+	t_player		player;
 	t_list			*coins;
 	size_t			steps;
+	t_list			*cleanup;
 	t_game_state	state;
 };
+
+
+
 
 int		init_game(t_game *game);
 int		init_game_map(t_game *game, char *map_path);
@@ -91,16 +118,25 @@ int		init_hooks(t_game *game);
 void	cleanup_game(t_game *game);
 
 
-/*
-So the coins will just be animation objects for "coins spinning"
-The player will be a viewport object, but animations will be handled seperatly.
-The exit will be a viewport object, animation will be handled seperatly.
-*/
 
-int		init_exit(t_game *game);
-int		init_coins(t_game *game);
-int		init_player(t_game *game);
 int		init_sprites(t_game *game);
+
+
+/**
+ * @brief Move the player in the given direction.
+ * 
+ * Does not check for walls!!!
+ * 
+ * Note directions are as follows:
+ * - 0: Up / North
+ * - 1: Right / East
+ * - 2: Down / South
+ * - 3: Left / West
+ * 
+ * @param game game to move the player in.
+ * @param direction direction to move the player in.
+ */
+int		move_player(t_game *game, int direction);
 
 
 #endif

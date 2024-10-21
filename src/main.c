@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	// Initialize the hooks
+	init_sprites(&game);
 	if (!init_hooks(&game))
 	{
 		cleanup_game(&game);

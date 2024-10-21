@@ -140,6 +140,14 @@ t_position	view_iterator(t_viewprt *view);
  */
 void	draw_viewport_hook(void *param);
 
+/**
+ * @brief Set the state of the foreground or background
+ * @param view viewport to set the state for
+ * @param index 0 for foreground, 1 for background
+ * @param state 0 for disabled, 1 for enabled
+ */
+void	view_fgbg_state(t_viewprt *view, int index, int state);
+
 /*
 ██╗███╗   ██╗███████╗████████╗      
 ██║████╗  ██║██╔════╝╚══██╔══╝      

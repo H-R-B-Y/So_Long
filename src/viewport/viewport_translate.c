@@ -48,3 +48,14 @@ t_position	view_iterator(t_viewprt *view)
 		(view->viewport_size.x * !view->map_smaller.x)
 			+ (view->map->size.x * view->map_smaller.x)});
 }
+
+void	view_fgbg_state(t_viewprt *view, int index, int state)
+{
+	if (index < 0 || index > 2 || state < 0 || state > 1)
+		return ;
+	if (index == 0)
+		view->fg_img->enabled = state;
+	if (index == 1)
+		view->bg_img->enabled = state;
+	return ;
+}

@@ -78,9 +78,9 @@ t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 			* view->map_smaller.y,
 		(((VIEWPORT_WIDTH - map->width) / 2) * view->tile_size.y)
 			* view->map_smaller.x};
-	if (!init_background(view, textures[0]))
+	if (textures && textures[0] && !init_background(view, textures[0]))
 		return (free(view), (void *)0);
-	if (!init_foreground(view, textures[1]))
+	if (textures && textures[0] && !init_foreground(view, textures[1]))
 		return (mlx_delete_image(mlx, view->bg_img),
 			free(view), (void *)0);
 	return (view);
@@ -88,9 +88,22 @@ t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 
 void destroy_viewport(t_viewprt *view)
 {
+	t_list *obj;
+	t_view_obj *instance;
+
+	obj = view->objects;
+	while (obj)
+	{
+		instance = (t_view_obj *)obj->content;
+		if (instance && instance->destroy)
+			instance->destroy(instance, view);
+		obj->content = 0;
+		obj = obj->next;
+	}
+	ft_lstclear(&view->objects, free);
 	mlx_delete_image(view->mlx, view->bg_img);
 	mlx_delete_image(view->mlx, view->fg_img);
-	free_inst_matrix(view->fg_matrix, min_pos(view->viewport_size, view->map->size));
+	free_inst_matrix(view->fg_matrix, view_iterator(view));
 	free(view);
 }
 

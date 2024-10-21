@@ -35,9 +35,13 @@ int	viewport_draw_objects(t_viewprt *view)
 	{
 		obj = (t_view_obj *)index->content;
 		if (pos_in_view(obj->pos, view))
-			obj->enable(obj, view);
+		{
+			if (!obj->enable(obj, view))
+				ft_putendl_fd("Failed to enable object", 2);
+		}
 		else
-			obj->disable(obj, view);
+			if (!obj->disable(obj, view))
+				ft_putendl_fd("Failed to disable object", 2);
 		index = index->next;
 	}
 	return (1);

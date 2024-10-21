@@ -45,7 +45,7 @@
 			"label": "Make so_long",
 			"command": "make",
 			"args": [
-				"re"
+				"DEBUG=debug"
 			],
 			"group": {
 				"kind": "build",

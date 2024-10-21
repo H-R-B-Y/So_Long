@@ -37,6 +37,8 @@ t_anim_sprite	*anim_sprite_create(t_anim_engine *engine,
 
 void	anim_destroy_sprite(t_anim_sprite *sprite)
 {
+	if (!sprite)
+		return ;
 	destroy_frame_list(sprite->frame_list);
 	free(sprite);
 }

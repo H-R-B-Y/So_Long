@@ -43,22 +43,9 @@ int disable_anim_instance(t_view_obj *obj, t_viewprt *view)
 
 void destroy_anim_instance(void *data, t_viewprt *view)
 {
-	t_anim_sprite	*sprite;
 	t_list			*img_list;
 
 	if (!data || !view)
 		return ;
-	sprite = (t_anim_sprite *)data;
-	if (sprite->context)
-	{
-		img_list = (t_list *)sprite->context;
-		while (img_list)
-		{
-			if (img_list->content)
-				mlx_delete_image(view->mlx, (mlx_image_t *)img_list->content);
-			img_list = img_list->next;
-		}
-		ft_lstclear((t_list **)&sprite->context, free);
-	}
-	anim_destroy_sprite(sprite);
+	free(data);
 }

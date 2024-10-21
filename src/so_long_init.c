@@ -33,9 +33,11 @@ int	init_game_map(t_game *game, char *map_path)
 	if (!game->map)
 		return (0);
 	close(fd);
-	game->view = init_viewport(game->mlx, game->map, 0);
+	game->view = init_viewport(game->mlx, game->map,
+		(char *[2]){"assets/fg.png", "assets/bg.png"});
 	if (!game->view)
 		return (0);
+	game->view->need_redraw = 1;
 	return (1);
 }
 
@@ -52,6 +54,8 @@ int	init_hooks(t_game *game)
 	return (1);
 }
 
+
+
 void cleanup_game(t_game *game)
 {
 	if (game->view)
@@ -60,8 +64,10 @@ void cleanup_game(t_game *game)
 		anim_engine_cleanup(game->anim_engine);
 	if (game->map)
 		free_map(game->map);
-	if (game->mlx)
-		mlx_terminate(game->mlx);
 	if (game->coins)
 		ft_lstclear(&game->coins, free);
+	if (game->cleanup)
+		destroy_image_lst(game->mlx, game->cleanup);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
 }

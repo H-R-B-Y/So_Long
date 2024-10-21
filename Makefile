@@ -24,8 +24,7 @@ LIBMLX			:= $(LIBMLX_DIR)/build/libmlx42.a
 LIBFLAGS		:=  -ldl `pkg-config --libs glfw3` -pthread -lm
 
 SRC_DIR			:= ./src
-SRCS			:= $(SRC_DIR)/intialise_sprites.c \
-				$(SRC_DIR)/so_long_init.c \
+SRCS			:= $(SRC_DIR)/so_long_init.c \
 				$(SRC_DIR)/viewport/instance_matrix.c \
 				$(SRC_DIR)/viewport/viewport_init.c \
 				$(SRC_DIR)/viewport/viewport_obj_init.c \
@@ -36,9 +35,12 @@ SRCS			:= $(SRC_DIR)/intialise_sprites.c \
 				$(SRC_DIR)/utils/image_from_path.c \
 				$(SRC_DIR)/utils/min_max_pos.c \
 				$(SRC_DIR)/utils/set_instance_pos.c \
+				$(SRC_DIR)/utils/destroy_image_lst.c \
 				$(SRC_DIR)/viewport/view_obj_anim_obj/sprite_init_wrapper.c \
 				$(SRC_DIR)/viewport/view_obj_anim_obj/view_obj_anim.c \
-				$(SRC_DIR)/viewport/view_ob_mlx_inst/viewport_obj_inst.c
+				$(SRC_DIR)/viewport/view_ob_mlx_inst/viewport_obj_inst.c \
+				$(SRC_DIR)/init_sprites/init_sprites.c \
+				$(SRC_DIR)/init_sprites/init_coins.c
 
 
 OBJS			:= ${SRCS:.c=.o}
@@ -54,7 +56,7 @@ $(MAP_PARSE):
 		$(MAKE) --directory $(MAP_PARSE_DIR) all CFLAGS="$(CFLAGS)"
 
 $(DIJKSTRA):
-		$(MAKE) --directory $(DIJKSTRA_DIR) all CFLAGS="$(CFLAGS)"
+		$(MAKE) --directory $(DIJKSTRA_DIR) all CFLAGS="$(CFLAGS)" $(DEBUG)
 
 $(ANIM_ENGINE):
 		$(MAKE) --directory $(ANIM_ENGINE_DIR) all CFLAGS="$(CFLAGS)"
@@ -81,6 +83,9 @@ fclean: clean
 		$(MAKE) --directory $(ANIM_ENGINE_DIR) fclean
 		$(MAKE) --directory $(MAP_PARSE_DIR) fclean
 		$(MAKE) --directory $(DIJKSTRA_DIR) fclean
+		rm -rf $(NAME)
+
+rm:
 		rm -rf $(NAME)
 
 re: fclean all

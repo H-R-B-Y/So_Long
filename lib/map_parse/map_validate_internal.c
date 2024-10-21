@@ -113,7 +113,7 @@ int	_map_has_requred(t_map *map)
 			flg = flg | (2 * (map->map[i.y][i.x] == MAP_EXIT));
 			if (map->map[i.y][i.x] == MAP_EXIT)
 				map->exit = (t_position){i.y, i.x};
-			if (map->map[i.y][i.x] == MAP_COIN && map->coin_count++)
+			if (map->map[i.y][i.x] == MAP_COIN && ++map->coin_count)
 				ft_lstadd_back(&map->coins, ft_lstnew(create_pos(i.y, i.x)));
 			i.x++;
 		}
