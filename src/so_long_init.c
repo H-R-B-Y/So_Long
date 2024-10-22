@@ -47,14 +47,18 @@ int	init_hooks(t_game *game)
 	code = mlx_loop_hook(game->mlx, anim_update_hook, game->anim_engine);
 	if (!code)
 		return (0);
-	code = mlx_loop_hook(game->mlx, draw_viewport_hook, game->view); // need a wrapper for drawing the viewport
+	code = mlx_loop_hook(game->mlx, draw_viewport_hook, game->view);
 	if (!code)
 		return (0);
+	code = mlx_loop_hook(game->mlx, movement_hook, game);
 	// Need movement hooks
 	return (1);
 }
 
-
+void	dummy_clr(void *content)
+{
+	(void)content;
+}
 
 void cleanup_game(t_game *game)
 {
@@ -65,7 +69,8 @@ void cleanup_game(t_game *game)
 	if (game->map)
 		free_map(game->map);
 	if (game->coins)
-		ft_lstclear(&game->coins, free);
+		ft_lstclear(&game->coins, dummy_clr);
+	destroy_image_lst(game->mlx, game->player.dir_frames);
 	if (game->cleanup)
 		destroy_image_lst(game->mlx, game->cleanup);
 	if (game->mlx)

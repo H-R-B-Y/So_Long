@@ -12,17 +12,20 @@
 
 #include "../so_long.h"
 
-static t_list	*init_image_list(mlx_t *mlx, char **paths)
+static t_list	*init_image_list(t_game *game, char **paths)
 {
 	t_list		*list;
 	mlx_image_t	*img;
 	size_t		i;
+	mlx_t	*mlx;
 
 	list = 0;
 	i = 0;
+	mlx = game->mlx;
 	while (paths[i])
 	{
 		img = image_from_path(mlx, paths[i]);
+		mlx_resize_image(img, game->view->tile_size.x, game->view->tile_size.y);
 		if (!img)
 		{
 			while (--i)
@@ -86,7 +89,7 @@ int	init_coins(t_game *game)
 	t_anim_sprite **i;
 	t_view_obj *obj;
 
-	images = init_image_list(game->mlx, (char *[]){"assets/frame5.png", "assets/frame4.png", 0});
+	images = init_image_list(game, (char *[]){"assets/frame5.png", "assets/frame4.png", 0});
 	if (!images)
 		return (0);
 	coins = create_anim_objs(game, images);
@@ -100,6 +103,7 @@ int	init_coins(t_game *game)
 			return (destroy_image_lst(game->mlx, images), 0);
 		obj->pos = *((t_position *)ft_lstget(game->map->coins, i - coins)->content);
 		view_add_obj(game->view, obj);
+		ft_lstadd_back(&game->coins, ft_lstnew(obj));
 		(i)++;
 	}
 	free(coins);

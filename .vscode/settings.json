@@ -12,6 +12,19 @@
 		"string": "c",
 		"string_view": "c",
 		"view_obj_anim.h": "c",
-		"viewport.h": "c"
+		"viewport.h": "c",
+		"atomic": "c",
+		"bit": "c",
+		"*.tcc": "c",
+		"deque": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"algorithm": "c",
+		"memory": "c",
+		"random": "c",
+		"initializer_list": "c",
+		"stdexcept": "c",
+		"tuple": "c",
+		"type_traits": "c"
 	}
 }

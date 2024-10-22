@@ -46,7 +46,7 @@
  * @param view viewport to display the map.
  * @param anim_engine animation engine.
  * @param player_pos position of the player.
- * @param coins The coins that have been collected.
+ * @param coins Holds a list of the view objects for the coins.
  * @param steps number of steps taken.
  * 
  */
@@ -75,8 +75,10 @@ typedef enum e_game_state t_game_state;
  * Direction frames are stored in order.
  * 
  * @param pos position of the player.
- * @param direction_frames list of frames for each direction.
- * @param current_direction current direction of the player.
+ * @param dir_frames list of frames for each direction.
+ * @param cur_dir current direction of the player.
+ * @param move_delay delay between moves.
+ * @param move_timer time since last move.
  */
 typedef struct s_player t_player;
 
@@ -92,8 +94,10 @@ enum e_game_state
 struct s_player
 {
 	t_position	pos;
-	t_list		*direction_frames;
-	int			current_direction;
+	t_list		*dir_frames;
+	int			cur_dir;
+	double			move_delay;
+	double			move_timer;
 };
 
 struct s_game
@@ -138,5 +142,36 @@ int		init_sprites(t_game *game);
  */
 int		move_player(t_game *game, int direction);
 
+/**
+ * @brief Check if the player can move in the given direction.
+ * 
+ * Note directions are as follows:
+ * - 0: Up / North
+ * - 1: Right / East
+ * - 2: Down / South
+ * - 3: Left / West
+ * 
+ * @param game game to check.
+ * @param direction direction to check.
+ * @return 1 if the player can move, 0 if not.
+ */
+int	player_valid_movement(t_game *game, int direction);
+
+/**
+ * @brief Check if the player is on a coin.
+ * @param game game to check.
+ * @return A list item containin the viewobj 
+ * 		of the coin the player is on.
+ */
+t_list	*player_on_coin(t_game *game);
+
+int	player_valid_movement(t_game *game, int direction);
+int	move_player(t_game *game, int direction);
+void set_player_pos(t_game *game, t_position pos);
+
+/**
+ * @brief Handle the key hook for the game.
+ */
+void	movement_hook(void *game);
 
 #endif

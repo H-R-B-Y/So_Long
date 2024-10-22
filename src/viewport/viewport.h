@@ -63,8 +63,6 @@ struct s_viewport
 	int			**fg_matrix;
 	t_list		*objects;
 	int			need_redraw;
-	t_position (*map_to_screen)(t_viewprt *view, t_position pos);
-	t_position (*screen_to_map)(t_viewprt *view, t_position pos);
 };
 
 /**

@@ -17,6 +17,20 @@ int	init_coins(t_game *game);
 // not implemented
 int init_exit(t_game *game)
 {
+	mlx_image_t	*img;
+	t_position	pos;
+
+	img = image_from_path(game->mlx, "assets/bg.png");
+	if (!img)
+		return (0);
+	pos = game->map->exit;
+	pos = view_map_to_scrn(game->view, pos);
+	mlx_image_to_window(game->mlx, img, 0, 0);
+	mlx_resize_image(img, game->view->tile_size.x, game->view->tile_size.y);
+	img->instances[0].z = 3;
+	img->instances[0].x = pos.x;
+	img->instances[0].y = pos.y;
+	ft_lstadd_back(&game->cleanup, ft_lstnew(img));
 	return (1);
 }
 
@@ -53,11 +67,13 @@ int init_player(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		ft_lstadd_back(&game->player.direction_frames, ft_lstnew(img[i]));
-		img[i]->enabled = 0;
-		i++;
+		mlx_resize_image(img[i], game->view->tile_size.x, game->view->tile_size.y);
+		ft_lstadd_back(&game->player.dir_frames, ft_lstnew(img[i]));
+		img[i++]->enabled = 0;
 	}
-	game->player.current_direction = 0;
+	game->player.cur_dir = 0;
+	game->player.move_delay = 0.1;
+	game->player.move_timer = 0;
 	return (1);
 }
 
@@ -68,7 +84,6 @@ int init_sprites(t_game *game)
 		return (0);
 	if (!init_player(game))
 		return (0);
-	ft_lstadd_back(&game->cleanup, game->player.direction_frames);
 	if (!init_exit(game))
 		return (0);
 	return (1);

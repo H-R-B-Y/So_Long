@@ -35,12 +35,17 @@ int main(int argc, char **argv)
 	}
 	// Initialize the hooks
 	init_sprites(&game);
+	set_player_pos(&game, game.map->player);
+	((mlx_image_t *)ft_lstget(game.player.dir_frames, game.player.cur_dir)->content)->enabled = 1;
 	if (!init_hooks(&game))
 	{
 		cleanup_game(&game);
 		ft_putstr_fd("Error\nFailed to initialize hooks\n", 2);
 		return (1);
 	}
+	game.state = GAME_STATE_PLAYING;
+	mlx_image_t *txt = mlx_put_string(game.mlx, "So Long", 10, 10);
+	txt->instances[0].enabled = 0;
 	// Start the game loop
 	mlx_loop(game.mlx);
 	// Destroy the game

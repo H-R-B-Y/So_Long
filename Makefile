@@ -40,10 +40,14 @@ SRCS			:= $(SRC_DIR)/so_long_init.c \
 				$(SRC_DIR)/viewport/view_obj_anim_obj/view_obj_anim.c \
 				$(SRC_DIR)/viewport/view_ob_mlx_inst/viewport_obj_inst.c \
 				$(SRC_DIR)/init_sprites/init_sprites.c \
-				$(SRC_DIR)/init_sprites/init_coins.c
+				$(SRC_DIR)/init_sprites/init_coins.c \
+				$(SRC_DIR)/player_utils.c \
+				$(SRC_DIR)/movement_hook.c
 
 
 OBJS			:= ${SRCS:.c=.o}
+
+PRINT_DELAY		?= 100000
 
 MAIN 			:= $(SRC_DIR)/main.c
 
@@ -56,13 +60,13 @@ $(MAP_PARSE):
 		$(MAKE) --directory $(MAP_PARSE_DIR) all CFLAGS="$(CFLAGS)"
 
 $(DIJKSTRA):
-		$(MAKE) --directory $(DIJKSTRA_DIR) all CFLAGS="$(CFLAGS)" $(DEBUG)
+		$(MAKE) --directory $(DIJKSTRA_DIR) all CFLAGS="$(CFLAGS)" $(DEBUG) PRINT_DELAY=$(PRINT_DELAY)
 
 $(ANIM_ENGINE):
 		$(MAKE) --directory $(ANIM_ENGINE_DIR) all CFLAGS="$(CFLAGS)"
 
 $(LIBMLX):
-		cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
+		cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make CFLAGS="$(CFLAGS)" -C $(LIBMLX_DIR)/build -j4 
 
 $(NAME): $(MAIN) $(OBJS) $(LIBFT) $(ANIM_ENGINE) $(LIBMLX) $(DIJKSTRA) $(MAP_PARSE)
 		$(CC) $(CFLAGS) $(MAIN) $(OBJS) $(ANIM_ENGINE) $(MAP_PARSE) $(DIJKSTRA) $(LIBFT) $(LIBMLX) $(LIBFLAGS) -o $(NAME)
