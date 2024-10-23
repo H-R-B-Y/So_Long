@@ -217,6 +217,7 @@ struct s_view_obj
 	t_position			pos; // Position on the map
 	int					depth; // Depth of the object	
 	void				*data;
+	int					enabled;
 	t_view_obj_enable	enable;
 	t_view_obj_disable	disable;
 	void				(*destroy)(void *data, t_viewprt *view);

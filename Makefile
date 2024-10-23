@@ -36,13 +36,15 @@ SRCS			:= $(SRC_DIR)/so_long_init.c \
 				$(SRC_DIR)/utils/min_max_pos.c \
 				$(SRC_DIR)/utils/set_instance_pos.c \
 				$(SRC_DIR)/utils/destroy_image_lst.c \
+				$(SRC_DIR)/utils/image_lst.c \
 				$(SRC_DIR)/viewport/view_obj_anim_obj/sprite_init_wrapper.c \
 				$(SRC_DIR)/viewport/view_obj_anim_obj/view_obj_anim.c \
 				$(SRC_DIR)/viewport/view_ob_mlx_inst/viewport_obj_inst.c \
 				$(SRC_DIR)/init_sprites/init_sprites.c \
 				$(SRC_DIR)/init_sprites/init_coins.c \
+				$(SRC_DIR)/init_sprites/init_exit.c \
 				$(SRC_DIR)/player_utils.c \
-				$(SRC_DIR)/movement_hook.c
+				$(SRC_DIR)/movement_hook.c 
 
 
 OBJS			:= ${SRCS:.c=.o}

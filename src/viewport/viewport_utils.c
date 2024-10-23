@@ -48,23 +48,6 @@ int	draw_viewport(t_viewprt *view)
 	return (1);
 }
 
-void	move_view(t_viewprt *view, t_position direction)
-{
-	(void)view;
-	(void)direction;
-	// t_position	new_offset;
-
-	// new_offset = (t_position){
-	// 	clamp(view->view_offset.y + direction.y, 0, view->map->size.y - view->viewport_size.y),
-	// 	clamp(view->view_offset.x + direction.x, 0, view->map->size.x - view->viewport_size.x)};
-	// if (view->map_smaller)
-	// 	return ;
-	// view->view_offset = new_offset;
-	// view->need_redraw = 1;
-	// return ;
-	return ;
-}
-
 int resize_larger(t_viewprt *view)
 {
 	view->map_smaller = (t_position){

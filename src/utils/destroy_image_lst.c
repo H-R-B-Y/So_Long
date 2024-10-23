@@ -16,6 +16,8 @@ void	destroy_image_lst(mlx_t *mlx, t_list *images)
 {
 	t_list *strt;
 
+	if (!images || !mlx)
+		return ;
 	strt = images;
 	while (images)
 	{

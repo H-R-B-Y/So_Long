@@ -93,9 +93,9 @@ enum e_game_state
 
 struct s_player
 {
-	t_position	pos;
-	t_list		*dir_frames;
-	int			cur_dir;
+	t_position		pos;
+	t_list			*dir_frames;
+	int				cur_dir;
 	double			move_delay;
 	double			move_timer;
 };
@@ -108,7 +108,10 @@ struct s_game
 	t_anim_engine	*anim_engine;
 	t_player		player;
 	t_list			*coins;
+	size_t			coins_collected;
 	size_t			steps;
+	int				exit_open;
+	t_view_obj		*exit_obj;
 	t_list			*cleanup;
 	t_game_state	state;
 };
@@ -124,7 +127,7 @@ void	cleanup_game(t_game *game);
 
 
 int		init_sprites(t_game *game);
-
+int		init_coins(t_game *game);
 
 /**
  * @brief Move the player in the given direction.
@@ -173,5 +176,18 @@ void set_player_pos(t_game *game, t_position pos);
  * @brief Handle the key hook for the game.
  */
 void	movement_hook(void *game);
+
+/**
+ * @brief Initialise an image list from a list of paths.
+ * @param game game to initialise the images for.
+ * @param paths list of paths to the
+ * 		images (null terminate pls)
+ * @param size size to resize the images to.
+ */
+t_list	*init_img_lst(
+		t_game *game, char **paths,
+		t_position size);
+
+int	enable_exit(t_game *g);
 
 #endif

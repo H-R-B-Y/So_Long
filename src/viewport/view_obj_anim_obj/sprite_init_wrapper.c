@@ -61,7 +61,6 @@ t_view_obj	*create_anim_instance(t_position pos, int depth,
 
 	if (!sprite)
 		return (0);
-	anim_set_loop(sprite, anim_loop_pingpong, 1);
 	anim_set_state(sprite, 0);
 	view_obj = create_viewport_obj(pos, sprite,
 		enable_anim_instance, disable_anim_instance);

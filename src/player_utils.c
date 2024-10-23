@@ -68,19 +68,24 @@ int	player_valid_movement(t_game *game, int direction)
 t_list	*player_on_coin(t_game *game)
 {
 	t_list		*coins;
-	t_position	*coin;
+	t_position	coin;
 	t_position	pos;
 	int			i;
 
-	coins = game->map->coins;
+	coins = game->coins;
 	pos = game->player.pos;
 	i = 0;
 	while (coins)
 	{
-		coin = coins->content;
-		if (coin->x == pos.x && coin->y == pos.y)
-			return (ft_lstget(game->map->coins, i));
+		if (coins->content)
+		{
+		coin = ((t_view_obj *)coins->content)->pos;
+		if (((t_anim_sprite *)((t_view_obj *)coins->content)->data)
+			->enabled
+			&& coin.x == pos.x && coin.y == pos.y)
+			return (coins);
 		coins = coins->next;
+		}
 		i++;
 	}
 	return (0);

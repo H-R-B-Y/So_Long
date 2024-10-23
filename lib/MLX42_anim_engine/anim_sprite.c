@@ -30,7 +30,7 @@ t_anim_sprite	*anim_sprite_create(t_anim_engine *engine,
 		return (0);
 	}
 	sprite->frame_duration = frame_duration;
-	sprite->enabled = 0;
+	sprite->enabled = 1;
 	ft_lstadd_back(&engine->sprite_list, ft_lstnew(sprite));
 	return (sprite);
 }

@@ -25,6 +25,7 @@
 		"initializer_list": "c",
 		"stdexcept": "c",
 		"tuple": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"so_long.h": "c"
 	}
 }

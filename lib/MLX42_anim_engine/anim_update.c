@@ -41,7 +41,7 @@ void	anim_engine_update(t_anim_engine *engine)
 	while (this_sprite)
 	{
 		sprite = (t_anim_sprite *)this_sprite->content;
-		if (sprite->enabled
+		if (sprite && sprite->enabled
 			&& (!sprite->finished || sprite->loop_enabled)
 			&& anim_needs_update(sprite, engine->mlx->delta_time))
 			anim_sprite_update(sprite);

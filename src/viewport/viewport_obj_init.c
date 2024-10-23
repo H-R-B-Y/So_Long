@@ -31,6 +31,7 @@ t_view_obj	*create_viewport_obj(t_position pos,
 	view_obj->disable = disable;
 	view_obj->depth = 3; // default to 3
 	view_obj->destroy = 0;
+	view_obj->enabled = 1;
 	return (view_obj);
 }
 
@@ -47,7 +48,7 @@ static void	view_obj_destroy(t_viewprt *view, t_view_obj *obj)
 	if (obj)
 	{
 		if (obj->destroy)
-			obj->destroy(view, obj->data);
+			obj->destroy(obj->data, view);
 		free(obj);
 	}
 }

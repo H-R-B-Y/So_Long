@@ -14,25 +14,8 @@
 
 int	init_coins(t_game *game);
 
-// not implemented
-int init_exit(t_game *game)
-{
-	mlx_image_t	*img;
-	t_position	pos;
+int init_exit(t_game *game);
 
-	img = image_from_path(game->mlx, "assets/bg.png");
-	if (!img)
-		return (0);
-	pos = game->map->exit;
-	pos = view_map_to_scrn(game->view, pos);
-	mlx_image_to_window(game->mlx, img, 0, 0);
-	mlx_resize_image(img, game->view->tile_size.x, game->view->tile_size.y);
-	img->instances[0].z = 3;
-	img->instances[0].x = pos.x;
-	img->instances[0].y = pos.y;
-	ft_lstadd_back(&game->cleanup, ft_lstnew(img));
-	return (1);
-}
 
 void destroy_player_images(mlx_t *mlx, mlx_image_t *img[4])
 {

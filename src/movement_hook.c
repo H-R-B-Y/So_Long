@@ -13,31 +13,41 @@
 #include "so_long.h"
 
 
-void	mv_view_or_plyr(t_game *g, int dir)
+static int	player_centered(t_game *g)
 {
-	if (dir == 0 && g->view->view_offset.y > 0)
+	t_position	pos;
+	int			x;
+	int			y;
+
+	pos = g->player.pos;
+	x = (g->map->width - g->view->viewport_size.x) / 2;
+	y = (g->map->height - g->view->viewport_size.y) / 2;
+	if (x + g->view->viewport_size.x > pos.x || x < pos.x
+		|| y + g->view->viewport_size.y > pos.y || y > pos.y)
+		return (0);
+	return (1);
+}
+
+static void	mv_view_or_plyr(t_game *g, int dir)
+{
+	if (!player_centered(g))
 	{
-		g->view->view_offset.y -= 1;
-	}
-	else if (dir == 1
-		&& (g->view->view_offset.x + g->view->viewport_size.x) < g->map->width)
-	{
-		g->view->view_offset.x += 1;
-	}
-	else if (dir == 2 
-		&& (g->view->view_offset.y + g->view->viewport_size.y) < g->map->height)
-	{
-		g->view->view_offset.y += 1;
-	}
-	else if (dir == 3 && g->view->view_offset.x > 0)
-	{
-		g->view->view_offset.x -= 1;
+		if (dir == 0 && g->view->view_offset.y > 0)
+			g->view->view_offset.y -= 1;
+		else if (dir == 1
+			&& (g->view->view_offset.x + g->view->viewport_size.x) < g->map->width)
+			g->view->view_offset.x += 1;
+		else if (dir == 2 
+			&& (g->view->view_offset.y + g->view->viewport_size.y) < g->map->height)
+			g->view->view_offset.y += 1;
+		else if (dir == 3 && g->view->view_offset.x > 0)
+			g->view->view_offset.x -= 1;
 	}
 	set_player_pos(g, g->player.pos);
 	g->view->need_redraw = 1;
 }
 
-int		get_direction(mlx_t *mlx)
+static int	get_direction(mlx_t *mlx)
 {
 	int	dir;
 
@@ -53,15 +63,28 @@ int		get_direction(mlx_t *mlx)
 	return (dir);
 }
 
+static int	remove_coin(t_game *g, t_view_obj *coin)
+{
+	t_list	*sprite;
+
+	if (!coin)
+		return (0);
+	coin->enabled = 0;
+	coin->disable(coin, g->view);
+	return (1);
+}
+
+// 607000040520
+
 void	movement_hook(void *game)
 {
 	t_game	*g;
 	int		dir;
+	t_list	*coin;
 
 	g = (t_game *)game;
 	if (g->player.move_timer < g->player.move_delay)
 		g->player.move_timer += g->mlx->delta_time;
-	
 	else if (g->state == GAME_STATE_PLAYING)
 	{
 		dir = get_direction(g->mlx);
@@ -69,6 +92,14 @@ void	movement_hook(void *game)
 			return ;
 		move_player(g, dir);
 		mv_view_or_plyr(g, dir);
+		g->steps++;
+		coin = player_on_coin(g);
+		if (coin)
+			g->coins_collected += remove_coin(g, coin->content);
+		if ((g->coins_collected)
+			== g->map->coin_count
+			&& !g->exit_open)
+			enable_exit(g);
 		g->player.move_timer = 0;
 	}
 }
