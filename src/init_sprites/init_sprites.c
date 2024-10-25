@@ -46,17 +46,17 @@ int init_player(t_game *game)
 	mlx_image_to_window(game->mlx, img[1], 0, 0);
 	mlx_image_to_window(game->mlx, img[2], 0, 0);
 	mlx_image_to_window(game->mlx, img[3], 0, 0);
-	game->player.pos = game->map->player;
+	game->plyr.pos = game->map->player;
 	i = 0;
 	while (i < 4)
 	{
 		mlx_resize_image(img[i], game->view->tile_size.x, game->view->tile_size.y);
-		ft_lstadd_back(&game->player.dir_frames, ft_lstnew(img[i]));
+		ft_lstadd_back(&game->plyr.dir_frames, ft_lstnew(img[i]));
 		img[i++]->enabled = 0;
 	}
-	game->player.cur_dir = 0;
-	game->player.move_delay = 0.1;
-	game->player.move_timer = 0;
+	game->plyr.cur_dir = 0;
+	game->plyr.mov_delay = 0.1;
+	game->plyr.mov_tmr = 0;
 	return (1);
 }
 
@@ -69,5 +69,6 @@ int init_sprites(t_game *game)
 		return (0);
 	if (!init_exit(game))
 		return (0);
+	//update_step_counter(game);
 	return (1);
 }

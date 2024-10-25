@@ -43,8 +43,6 @@ int disable_anim_instance(t_view_obj *obj, t_viewprt *view)
 
 void destroy_anim_instance(void *data, t_viewprt *view)
 {
-	t_list			*img_list;
-
 	if (!data || !view)
 		return ;
 	free(data);

@@ -26,6 +26,7 @@
 		"stdexcept": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"so_long.h": "c"
+		"so_long.h": "c",
+		"utils.h": "c"
 	}
 }

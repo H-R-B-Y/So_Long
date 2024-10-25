@@ -17,14 +17,13 @@ void	anim_sprite_update(t_anim_sprite *sprite)
 	t_frame	*current_frame;
 	t_frame	*next_frame;
 
-	if (!sprite->enabled
-		|| (sprite->finished && !sprite->loop_enabled))
+	if ((sprite->finished && !sprite->loop_enabled))
 		return ;
 	current_frame = get_current_frame(sprite);
 	if (!current_frame)
 		return ;
 	next_frame = get_frame(sprite, sprite->loop(sprite));
-	if (!next_frame)
+	if (!next_frame || !sprite->enabled)
 		return ;
 	current_frame->image->instances[current_frame->instance].enabled = 0;
 	next_frame->image->instances[next_frame->instance].enabled = 1;
@@ -34,16 +33,18 @@ void	anim_engine_update(t_anim_engine *engine)
 {
 	t_list			*this_sprite;
 	t_anim_sprite	*sprite;
+	double			delta_time;
 
 	if (engine->paused)
 		return ;
 	this_sprite = engine->sprite_list;
+	delta_time = engine->mlx->delta_time;
 	while (this_sprite)
 	{
 		sprite = (t_anim_sprite *)this_sprite->content;
-		if (sprite && sprite->enabled
-			&& (!sprite->finished || sprite->loop_enabled)
-			&& anim_needs_update(sprite, engine->mlx->delta_time))
+		if (sprite && (!sprite->finished
+				|| sprite->loop_enabled)
+			&& anim_needs_update(sprite, delta_time))
 			anim_sprite_update(sprite);
 		this_sprite = this_sprite->next;
 	}

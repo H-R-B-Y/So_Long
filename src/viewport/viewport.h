@@ -51,8 +51,8 @@ struct s_viewport
 {
 	mlx_t		*mlx;
 	t_position	tile_size;
-	t_position	view_offset;
-	t_position	viewport_size;
+	t_position	offset;
+	t_position	size;
 	t_position	map_smaller;
 	t_position	map_offset;
 	t_map		*map;

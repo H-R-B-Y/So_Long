@@ -26,9 +26,9 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(v->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(v->mlx);
 	if (mlx_is_key_down(v->mlx, MLX_KEY_KP_ADD))
-		calc_view_size(v, (t_position){v->viewport_size.y+1, v->viewport_size.x+1});
+		calc_view_size(v, (t_position){v->size.y+1, v->size.x+1});
 	if (mlx_is_key_down(v->mlx, MLX_KEY_KP_SUBTRACT))
-		calc_view_size(v, (t_position){v->viewport_size.y-1, v->viewport_size.x-1});
+		calc_view_size(v, (t_position){v->size.y-1, v->size.x-1});
 	if (mlx_is_key_down(v->mlx, MLX_KEY_D))
 	{
 		((t_view_obj *)v->objects->content)->pos.x++;
@@ -39,13 +39,13 @@ void ft_hook(void* param)
 	{	
 	if (mlx_is_key_down(v->mlx, MLX_KEY_LEFT))
 	{
-		v->view_offset.x = clamp(v->view_offset.x - 1, 0, v->map->size.x - v->viewport_size.x);
+		v->offset.x = clamp(v->offset.x - 1, 0, v->map->size.x - v->size.x);
 		v->need_redraw = 1;
 		draw_viewport(v);
 	}
 	if (mlx_is_key_down(v->mlx, MLX_KEY_RIGHT))
 	{
-		v->view_offset.x = clamp(v->view_offset.x + 1, 0, v->map->size.x - v->viewport_size.x);
+		v->offset.x = clamp(v->offset.x + 1, 0, v->map->size.x - v->size.x);
 		v->need_redraw = 1;
 		draw_viewport(v);
 	}}
@@ -53,13 +53,13 @@ void ft_hook(void* param)
 	{
 	if (mlx_is_key_down(v->mlx, MLX_KEY_UP))
 	{
-		v->view_offset.y = clamp(v->view_offset.y - 1, 0, v->map->size.y - v->viewport_size.y);
+		v->offset.y = clamp(v->offset.y - 1, 0, v->map->size.y - v->size.y);
 		v->need_redraw = 1;
 		draw_viewport(v);
 	}
 	if (mlx_is_key_down(v->mlx, MLX_KEY_DOWN))
 	{
-		v->view_offset.y = clamp(v->view_offset.y + 1, 0, v->map->size.y - v->viewport_size.y);
+		v->offset.y = clamp(v->offset.y + 1, 0, v->map->size.y - v->size.y);
 		v->need_redraw = 1;
 		draw_viewport(v);
 	}}
@@ -96,7 +96,7 @@ int main(void)
 	player_obj->pos = (t_position){1, 24};
 	player->frame_duration = 0.1;
 	view_add_obj(viewport, player_obj);
-	// viewport->view_offset = (t_position){0, 1};
+	// viewport->offset = (t_position){0, 1};
 	viewport->need_redraw = 1;
 
 	mlx_loop_hook(mlx, ft_hook, viewport);

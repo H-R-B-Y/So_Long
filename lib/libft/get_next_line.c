@@ -26,7 +26,7 @@ static int	read_file(int fd, t_master *m)
 			return (free(m->buff), (m->exit = 0), 0);
 		m->eof += 1 * (bytes == 0);
 		m->buff[bytes] = '\0';
-		m->exit = (fancy_str_join(m->exit, m->buff, 2));
+		m->exit = (fancy_str_join(m->exit, m->buff, 1));
 	}
 	free(m->buff);
 	return (1);
@@ -44,7 +44,7 @@ char	*get_next_line(int fd)
 	if (bytes < 0)
 		return (0);
 	if (m[fd].eof && m[fd].exit && !ft_strchr(m[fd].exit, '\n'))
-		return (tmp = fancy_str_join(m[fd].exit, 0, 2), m[fd].exit = 0, tmp);
+		return (tmp = fancy_str_join(m[fd].exit, 0, 1), m[fd].exit = 0, tmp);
 	else if (m[fd].exit)
 	{
 		m[fd].swap = fancy_str_join((ft_strchr(m[fd].exit, '\n') + 1), 0, 0);

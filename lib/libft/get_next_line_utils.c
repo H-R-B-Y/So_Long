@@ -33,9 +33,9 @@ char	*fancy_str_join( char *s1, char *s2, int flag)
 	index = 0;
 	while (s2 && index < size2)
 		output[size1 + index++] = (char)*s2++;
-	if ((flag & (1 << 1)) == (1 << 1))
+	if ((flag & (1 << 0)) == (1 << 0))
 		free(s1 - size1);
-	if ((flag & (1 << 2)) == (1 << 2))
+	if ((flag & (1 << 1)) == (1 << 1))
 		free(s2 - index);
 	return (output);
 }

@@ -56,11 +56,11 @@ typedef struct s_game t_game;
  * @brief Enumeration of game states.
  * 
  * States are:
- * - GAME_STATE_TITLE: Title screen.
- * - GAME_STATE_PAUSED: Game is paused.
- * - GAME_STATE_PLAYING: Game is being played.
- * - GAME_STATE_WON: Game has been won.
- * - GAME_STATE_END: Game has ended.
+ * - GM_TITLE: Title screen.
+ * - GM_PAUSE: Game is paused.
+ * - GM_PLAY: Game is being played.
+ * - GM_WON: Game has been won.
+ * - GM_END: Game has ended.
  */
 typedef enum e_game_state t_game_state;
 
@@ -77,18 +77,18 @@ typedef enum e_game_state t_game_state;
  * @param pos position of the player.
  * @param dir_frames list of frames for each direction.
  * @param cur_dir current direction of the player.
- * @param move_delay delay between moves.
- * @param move_timer time since last move.
+ * @param mov_delay delay between moves.
+ * @param mov_tmr time since last move.
  */
 typedef struct s_player t_player;
 
 enum e_game_state
 {
-	GAME_STATE_TITLE,
-	GAME_STATE_PAUSED,
-	GAME_STATE_PLAYING,
-	GAME_STATE_WON,
-	GAME_STATE_END
+	GM_TITLE,
+	GM_PAUSE,
+	GM_PLAY,
+	GM_WON,
+	GM_END
 };
 
 struct s_player
@@ -96,8 +96,8 @@ struct s_player
 	t_position		pos;
 	t_list			*dir_frames;
 	int				cur_dir;
-	double			move_delay;
-	double			move_timer;
+	double			mov_delay;
+	double			mov_tmr;
 };
 
 struct s_game
@@ -105,11 +105,12 @@ struct s_game
 	mlx_t			*mlx;
 	t_map			*map;
 	t_viewprt		*view;
-	t_anim_engine	*anim_engine;
-	t_player		player;
+	t_anim_engine	*engine;
+	t_player		plyr;
 	t_list			*coins;
-	size_t			coins_collected;
+	size_t			c_count;
 	size_t			steps;
+	mlx_image_t		*step_img;
 	int				exit_open;
 	t_view_obj		*exit_obj;
 	t_list			*cleanup;
@@ -119,7 +120,7 @@ struct s_game
 
 
 
-int		init_game(t_game *game);
+int		init_game(t_game *game, char *str);
 int		init_game_map(t_game *game, char *map_path);
 int		init_hooks(t_game *game);
 void	cleanup_game(t_game *game);
@@ -158,7 +159,7 @@ int		move_player(t_game *game, int direction);
  * @param direction direction to check.
  * @return 1 if the player can move, 0 if not.
  */
-int	player_valid_movement(t_game *game, int direction);
+int	valdidate_mov(t_game *game, int direction);
 
 /**
  * @brief Check if the player is on a coin.
@@ -168,9 +169,9 @@ int	player_valid_movement(t_game *game, int direction);
  */
 t_list	*player_on_coin(t_game *game);
 
-int	player_valid_movement(t_game *game, int direction);
-int	move_player(t_game *game, int direction);
-void set_player_pos(t_game *game, t_position pos);
+int		player_on_exit (t_game *g);
+int		move_player(t_game *game, int direction);
+void	set_player_pos(t_game *game, t_position pos);
 
 /**
  * @brief Handle the key hook for the game.
@@ -189,5 +190,20 @@ t_list	*init_img_lst(
 		t_position size);
 
 int	enable_exit(t_game *g);
+
+/**
+ * @brief Initialize the end screen.
+ * @param g game to initialize the end screen for.
+ * 
+ * This will set the game state to GM_WON and add a new
+ * hook to exit the game when the escape key is pressed.
+ */
+int	init_end_screen(t_game *g);
+
+/**
+ * @brief Re-draws the step counter.
+ * @param g game to update the step counter for.
+ */
+void update_step_counter(t_game *g);
 
 #endif

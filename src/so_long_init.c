@@ -12,21 +12,26 @@
 
 #include "so_long.h"
 
-int	init_game(t_game *game)
+int	init_game(t_game *game, char *title)
 {
-	// REMINDER implement resize
-	game->mlx = mlx_init(1920, 1080, "So Long", 0);
+	char	*str;
+
+	str = ft_strjoin("So Long - ", title);
+	game->mlx = mlx_init(1920, 1080, str, 0);
+	free(str);
 	if (!game->mlx)
 		return (0);
-	game->anim_engine = anim_engine_init(game->mlx);
-	if (!game->anim_engine)
+	game->engine = anim_engine_init(game->mlx);
+	if (!game->engine)
 		return (0);
 	return (1);
 }
 
 int	init_game_map(t_game *game, char *map_path)
 {
-	int fd = open(map_path, O_RDONLY);
+	int	fd;
+
+	fd = open(map_path, O_RDONLY);
 	if (fd < 0)
 		return (0);
 	game->map = create_map(map_proto_read(fd));
@@ -43,8 +48,9 @@ int	init_game_map(t_game *game, char *map_path)
 
 int	init_hooks(t_game *game)
 {
-	int code;
-	code = mlx_loop_hook(game->mlx, anim_update_hook, game->anim_engine);
+	int	code;
+
+	code = mlx_loop_hook(game->mlx, anim_update_hook, game->engine);
 	if (!code)
 		return (0);
 	code = mlx_loop_hook(game->mlx, draw_viewport_hook, game->view);
@@ -60,17 +66,17 @@ void	dummy_clr(void *content)
 	(void)content;
 }
 
-void cleanup_game(t_game *game)
+void	cleanup_game(t_game *game)
 {
 	if (game->view)
 		destroy_viewport(game->view);
-	if (game->anim_engine)
-		anim_engine_cleanup(game->anim_engine);
+	if (game->engine)
+		anim_engine_cleanup(game->engine);
 	if (game->map)
 		free_map(game->map);
 	if (game->coins)
 		ft_lstclear(&game->coins, dummy_clr);
-	destroy_image_lst(game->mlx, game->player.dir_frames);
+	destroy_image_lst(game->mlx, game->plyr.dir_frames);
 	if (game->cleanup)
 		destroy_image_lst(game->mlx, game->cleanup);
 	if (game->mlx)

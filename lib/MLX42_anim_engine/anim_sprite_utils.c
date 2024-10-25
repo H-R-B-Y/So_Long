@@ -14,8 +14,6 @@
 
 int	anim_needs_update(t_anim_sprite *sprite, double delta_time)
 {
-	if (!sprite->enabled)
-		return (0);
 	sprite->frame_timer += delta_time;
 	if (sprite->frame_timer >= sprite->frame_duration)
 	{

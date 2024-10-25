@@ -40,8 +40,8 @@ t_list	*init_img_lst(
 	while (paths[i])
 	{
 		img = image_from_path(g->mlx, paths[i]);
-		if (img)
-			((ft_lstadd_back(&ls, ft_lstnew(img)), 1) && i++);
+		if (img && ++i)
+			ft_lstadd_back(&ls, ft_lstnew(img));
 		else
 			return (backwards_delete(g, ls, i), (void *)0);
 		mlx_resize_image(img, size.x, size.y);

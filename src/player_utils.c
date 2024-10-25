@@ -18,7 +18,7 @@ void set_player_pos(t_game *game, t_position pos)
 	mlx_image_t	*img_inst;
 	
 	pos = view_map_to_scrn(game->view, pos);
-	img = game->player.dir_frames;
+	img = game->plyr.dir_frames;
 	while (img)
 	{
 		img_inst = img->content;
@@ -28,38 +28,34 @@ void set_player_pos(t_game *game, t_position pos)
 	}
 }
 
-int	move_player(t_game *game, int direction)
+int	move_player(t_game *g, int direction)
 {
 	t_position	new_pos;
-	t_list		*img;
-	mlx_image_t	*img_inst;
-	int			i;
 
 	if (direction < 0 || direction > 3)
 		return (0);
-	new_pos = game->player.pos;
+	new_pos = g->plyr.pos;
 	new_pos.y += (direction == 2) - (direction == 0);
 	new_pos.x += (direction == 1) - (direction == 3);
-	game->player.pos = new_pos;
-	img = game->player.dir_frames;
-	i = 0;
-	set_player_pos(game, new_pos);
+	g->plyr.pos = new_pos;
 	return (1);
 }
 
-int	player_valid_movement(t_game *game, int direction)
+int	valdidate_mov(t_game *game, int direction)
 {
 	t_position	new_pos;
 
 	if (direction < 0 || direction > 3)
 		return (0);
-	new_pos = game->player.pos;
+	new_pos = game->plyr.pos;
+
+	if ((!new_pos.x && direction == 3)
+		|| (new_pos.x == game->map->width - 1 && direction == 1)
+		|| (!new_pos.y && direction == 0)
+		|| (new_pos.y == game->map->height - 1 && direction == 2))
+		return (0);
 	new_pos.y += (direction == 2) - (direction == 0);
 	new_pos.x += (direction == 1) - (direction == 3);
-	if (new_pos.x < 0 || new_pos.y < 0
-		|| new_pos.x >= game->map->size.x
-		|| new_pos.y >= game->map->size.y)
-		return (0);
 	if (game->map->map[new_pos.y][new_pos.x] == MAP_WALL)
 		return (0);
 	return (1);
@@ -73,7 +69,7 @@ t_list	*player_on_coin(t_game *game)
 	int			i;
 
 	coins = game->coins;
-	pos = game->player.pos;
+	pos = game->plyr.pos;
 	i = 0;
 	while (coins)
 	{
@@ -88,5 +84,15 @@ t_list	*player_on_coin(t_game *game)
 		}
 		i++;
 	}
+	return (0);
+}
+
+int player_on_exit(t_game *g)
+{
+	if (!g->exit_open)
+		return (0);
+	if (g->map->exit.x == g->plyr.pos.x
+		&& g->map->exit.y == g->plyr.pos.y)
+		return (1);
 	return (0);
 }

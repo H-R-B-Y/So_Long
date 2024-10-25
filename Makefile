@@ -1,7 +1,7 @@
 
 NAME			= so_long.out
-# CFLAGS			:= -Wextra -Wall -Werror -g3 -O0 -fsanitize=address
-CFLAGS			:= -g3 -O0 -fsanitize=address
+CFLAGS			:= -Wextra -Wall -Werror -g3 -O0 -fsanitize=address
+#CFLAGS			:= -g3 -O0 -fsanitize=address
 
 HEADERS			:= -I ./include
 
@@ -44,7 +44,9 @@ SRCS			:= $(SRC_DIR)/so_long_init.c \
 				$(SRC_DIR)/init_sprites/init_coins.c \
 				$(SRC_DIR)/init_sprites/init_exit.c \
 				$(SRC_DIR)/player_utils.c \
-				$(SRC_DIR)/movement_hook.c 
+				$(SRC_DIR)/movement_hook.c \
+				$(SRC_DIR)/endscreen.c \
+				$(SRC_DIR)/step_counter.c
 
 
 OBJS			:= ${SRCS:.c=.o}

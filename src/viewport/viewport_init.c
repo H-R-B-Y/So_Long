@@ -69,7 +69,7 @@ t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 		return (0);
 	view->mlx = mlx;
 	view->map = map;
-	view->viewport_size = (t_position){VIEWPORT_HEIGHT, VIEWPORT_WIDTH};
+	view->size = (t_position){VIEWPORT_HEIGHT, VIEWPORT_WIDTH};
 	view->tile_size = (t_position){mlx->height / VIEWPORT_HEIGHT,
 		mlx->width / VIEWPORT_WIDTH};
 	view->map_smaller = (t_position){VIEWPORT_HEIGHT > map->height, VIEWPORT_WIDTH > map->width};

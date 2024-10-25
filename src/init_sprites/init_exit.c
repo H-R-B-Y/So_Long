@@ -36,7 +36,7 @@ int	init_exit(t_game *g)
 		g->view->tile_size);
 	if (!images)
 		return (0);
-	exit_sprite = anim_sprite_create(g->anim_engine,
+	exit_sprite = anim_sprite_create(g->engine,
 		create_frame_list(images, g->mlx), 0.5);
 	if (!exit_sprite)
 		return (destroy_image_lst(g->mlx, images), 0);

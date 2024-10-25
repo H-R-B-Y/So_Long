@@ -26,7 +26,7 @@ static t_anim_sprite	**create_anim_objs(
 	i = 0;
 	while (i < game->map->coin_count)
 	{
-		coins[i] = anim_sprite_create(game->anim_engine,
+		coins[i] = anim_sprite_create(game->engine,
 			create_frame_list(images, game->mlx), 1);
 		if (!coins[i])
 		{
@@ -36,22 +36,10 @@ static t_anim_sprite	**create_anim_objs(
 		}
 		anim_set_pos(coins[i], 0, 0, 3);
 		anim_set_loop(coins[i], anim_loop_forward, 1);
+		coins[i]->frame_duration = 0.5;
 		i++;
 	}
 	return (coins);
-}
-
-static void delete_anim_objs(t_anim_sprite **objs)
-{
-	t_anim_sprite **i;
-
-	i = objs;
-	while (*objs)
-	{
-		anim_destroy_sprite(*objs);
-		objs++;
-	}
-	free(i);
 }	
 
 // delete everything if this fails (cleanup)

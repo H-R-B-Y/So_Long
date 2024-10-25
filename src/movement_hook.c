@@ -12,39 +12,31 @@
 
 #include "so_long.h"
 
-
-static int	player_centered(t_game *g)
-{
-	t_position	pos;
-	int			x;
-	int			y;
-
-	pos = g->player.pos;
-	x = (g->map->width - g->view->viewport_size.x) / 2;
-	y = (g->map->height - g->view->viewport_size.y) / 2;
-	if (x + g->view->viewport_size.x > pos.x || x < pos.x
-		|| y + g->view->viewport_size.y > pos.y || y > pos.y)
-		return (0);
-	return (1);
-}
-
 static void	mv_view_or_plyr(t_game *g, int dir)
 {
-	if (!player_centered(g))
+	size_t player_view_x = g->plyr.pos.x - g->view->offset.x;
+	size_t player_view_y = g->plyr.pos.y - g->view->offset.y;
+
+	if (dir == 0 && player_view_y < g->view->size.y / 2)  // North
 	{
-		if (dir == 0 && g->view->view_offset.y > 0)
-			g->view->view_offset.y -= 1;
-		else if (dir == 1
-			&& (g->view->view_offset.x + g->view->viewport_size.x) < g->map->width)
-			g->view->view_offset.x += 1;
-		else if (dir == 2 
-			&& (g->view->view_offset.y + g->view->viewport_size.y) < g->map->height)
-			g->view->view_offset.y += 1;
-		else if (dir == 3 && g->view->view_offset.x > 0)
-			g->view->view_offset.x -= 1;
+		if (g->view->offset.y > 0)
+			g->view->offset.y -= 1;
 	}
-	set_player_pos(g, g->player.pos);
-	g->view->need_redraw = 1;
+	else if (dir == 1 && player_view_x > g->view->size.x / 2)  // East
+	{
+		if ((g->view->offset.x + g->view->size.x) < g->map->width)
+			g->view->offset.x += 1;
+	}
+	else if (dir == 2 && player_view_y > g->view->size.y / 2)  // South
+	{
+		if ((g->view->offset.y + g->view->size.y) < g->map->height)
+			g->view->offset.y += 1;
+	}
+	else if (dir == 3 && player_view_x < g->view->size.x / 2)  // West
+	{
+		if (g->view->offset.x > 0)
+			g->view->offset.x -= 1;
+	}
 }
 
 static int	get_direction(mlx_t *mlx)
@@ -63,43 +55,54 @@ static int	get_direction(mlx_t *mlx)
 	return (dir);
 }
 
-static int	remove_coin(t_game *g, t_view_obj *coin)
+static int	del_coin(t_game *g, t_list *coin)
 {
-	t_list	*sprite;
+	t_view_obj	*coin_obj;
 
 	if (!coin)
 		return (0);
-	coin->enabled = 0;
-	coin->disable(coin, g->view);
+	coin_obj = coin->content;
+	coin_obj->enabled = 0;
+	coin_obj->disable(coin_obj, g->view);
 	return (1);
 }
 
-// 607000040520
-
-void	movement_hook(void *game)
+static int	handle_movement(t_game *g)
 {
-	t_game	*g;
 	int		dir;
 	t_list	*coin;
 
+	dir = get_direction(g->mlx);
+	if (dir < 0 || !valdidate_mov(g, dir))
+		return (0);
+	++g->steps;
+	update_step_counter(g);
+	move_player(g, dir);
+	mv_view_or_plyr(g, dir);
+	set_player_pos(g, g->plyr.pos);
+	g->view->need_redraw = 1;
+	coin = player_on_coin(g);
+	g->c_count += del_coin(g, coin) * (!!coin);
+	if ((g->c_count) == g->map->coin_count
+		&& !g->exit_open)
+		enable_exit(g);
+	g->plyr.mov_tmr = 0;
+	return (1);
+}
+
+void	movement_hook(void *game)
+{
+	t_game *g;
+	
+
 	g = (t_game *)game;
-	if (g->player.move_timer < g->player.move_delay)
-		g->player.move_timer += g->mlx->delta_time;
-	else if (g->state == GAME_STATE_PLAYING)
+	g->plyr.mov_tmr += g->mlx->delta_time
+		* (g->plyr.mov_tmr < g->plyr.mov_delay);
+	if (g->state == GM_PLAY && g->plyr.mov_tmr >= g->plyr.mov_delay)
 	{
-		dir = get_direction(g->mlx);
-		if (dir < 0 || !player_valid_movement(g, dir))
+		if (handle_movement(g))
 			return ;
-		move_player(g, dir);
-		mv_view_or_plyr(g, dir);
-		g->steps++;
-		coin = player_on_coin(g);
-		if (coin)
-			g->coins_collected += remove_coin(g, coin->content);
-		if ((g->coins_collected)
-			== g->map->coin_count
-			&& !g->exit_open)
-			enable_exit(g);
-		g->player.move_timer = 0;
+		if (player_on_exit(g))
+			init_end_screen(g);
 	}
 }

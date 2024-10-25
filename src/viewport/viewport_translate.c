@@ -20,9 +20,9 @@ t_position view_map_to_scrn(t_viewprt *view, t_position pos)
 		|| pos.y > view->map->size.y)
 		return ((t_position){0, 0});
 	return ((t_position){
-		(((pos.y - view->view_offset.y)
+		(((pos.y - view->offset.y)
 				* view->tile_size.y) + view->map_offset.y),
-		(((pos.x - view->view_offset.x)
+		(((pos.x - view->offset.x)
 				* view->tile_size.x) + view->map_offset.x)});
 }
 
@@ -35,17 +35,17 @@ t_position view_scrn_to_map(t_viewprt *view, t_position pos)
 		return ((t_position){0, 0});
 	return ((t_position){
 		.x = ((pos.x - view->map_offset.x)
-			/ view->tile_size.x + view->view_offset.x),
+			/ view->tile_size.x + view->offset.x),
 		.y = ((pos.y - view->map_offset.y)
-			/ view->tile_size.y + view->view_offset.y)});
+			/ view->tile_size.y + view->offset.y)});
 }
 
 t_position	view_iterator(t_viewprt *view)
 {
 	return ((t_position){
-		(view->viewport_size.y * !view->map_smaller.y)
+		(view->size.y * !view->map_smaller.y)
 			+ (view->map->size.y * view->map_smaller.y),
-		(view->viewport_size.x * !view->map_smaller.x)
+		(view->size.x * !view->map_smaller.x)
 			+ (view->map->size.x * view->map_smaller.x)});
 }
 
