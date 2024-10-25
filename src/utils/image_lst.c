@@ -29,9 +29,9 @@ t_list	*init_img_lst(
 		t_game *g, char **paths,
 		t_position size)
 {
-	t_list *ls;
-	mlx_image_t *img;
-	size_t i;
+	t_list		*ls;
+	mlx_image_t	*img;
+	size_t		i;
 
 	ls = 0;
 	i = 0;

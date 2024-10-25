@@ -84,9 +84,8 @@ typedef struct s_player t_player;
 
 enum e_game_state
 {
-	GM_TITLE,
-	GM_PAUSE,
 	GM_PLAY,
+	GM_PAUSE,
 	GM_WON,
 	GM_END
 };

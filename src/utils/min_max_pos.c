@@ -12,14 +12,14 @@
 
 #include "utils.h"
 
-t_position min_pos(t_position a, t_position b)
+t_position	min_pos(t_position a, t_position b)
 {
 	return ((t_position){a.y * (a.y < b.y) + b.y * (a.y >= b.y),
-				a.x * (a.x < b.x) + b.x * (a.x >= b.x)});
+		a.x * (a.x < b.x) + b.x * (a.x >= b.x)});
 }
 
-t_position max_pos(t_position a, t_position b)
+t_position	max_pos(t_position a, t_position b)
 {
 	return ((t_position){a.y * (a.y >= b.y) + b.y * (a.y < b.y),
-				a.x * (a.x >= b.x) + b.x * (a.x > b.x)});
+		a.x * (a.x >= b.x) + b.x * (a.x > b.x)});
 }

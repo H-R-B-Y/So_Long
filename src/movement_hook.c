@@ -14,29 +14,24 @@
 
 static void	mv_view_or_plyr(t_game *g, int dir)
 {
-	size_t player_view_x = g->plyr.pos.x - g->view->offset.x;
-	size_t player_view_y = g->plyr.pos.y - g->view->offset.y;
+	size_t	pov_x;
+	size_t	pov_y;
 
-	if (dir == 0 && player_view_y < g->view->size.y / 2)  // North
-	{
-		if (g->view->offset.y > 0)
-			g->view->offset.y -= 1;
-	}
-	else if (dir == 1 && player_view_x > g->view->size.x / 2)  // East
-	{
-		if ((g->view->offset.x + g->view->size.x) < g->map->width)
-			g->view->offset.x += 1;
-	}
-	else if (dir == 2 && player_view_y > g->view->size.y / 2)  // South
-	{
-		if ((g->view->offset.y + g->view->size.y) < g->map->height)
-			g->view->offset.y += 1;
-	}
-	else if (dir == 3 && player_view_x < g->view->size.x / 2)  // West
-	{
-		if (g->view->offset.x > 0)
-			g->view->offset.x -= 1;
-	}
+	pov_x = g->plyr.pos.x - g->view->offset.x;
+	pov_y = g->plyr.pos.y - g->view->offset.y;
+	if (dir == 0 && pov_y < g->view->size.y / 2)
+		g->view->offset.y -= 1 * (g->view->offset.y > 0);
+	else if (dir == 1 && pov_x > g->view->size.x / 2)
+		g->view->offset.x += 1 * (
+					(g->view->offset.x + g->view->size.x)
+				< g->map->width);
+	else if (dir == 2 && pov_y > g->view->size.y / 2)
+		g->view->offset.y += 1 * (
+					(g->view->offset.y + g->view->size.y)
+				< g->map->height);
+	else if (dir == 3 && pov_x < g->view->size.x / 2)
+		g->view->offset.x -= 1 * (g->view->offset.x > 0);
+
 }
 
 static int	get_direction(mlx_t *mlx)
@@ -92,7 +87,7 @@ static int	handle_movement(t_game *g)
 
 void	movement_hook(void *game)
 {
-	t_game *g;
+	t_game	*g;
 	
 
 	g = (t_game *)game;
@@ -100,8 +95,7 @@ void	movement_hook(void *game)
 		* (g->plyr.mov_tmr < g->plyr.mov_delay);
 	if (g->state == GM_PLAY && g->plyr.mov_tmr >= g->plyr.mov_delay)
 	{
-		if (handle_movement(g))
-			return ;
+		handle_movement(g);
 		if (player_on_exit(g))
 			init_end_screen(g);
 	}

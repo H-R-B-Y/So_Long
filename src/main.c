@@ -43,7 +43,6 @@ int main(int argc, char **argv)
 		ft_putstr_fd("Error\nFailed to initialize hooks\n", 2);
 		return (1);
 	}
-	game.state = GM_PLAY;
 	// Start the game loop
 	mlx_loop(game.mlx);
 	// Destroy the game
