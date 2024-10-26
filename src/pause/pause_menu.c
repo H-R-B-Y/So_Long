@@ -55,7 +55,7 @@ void	handle_choice(t_game *g)
 		if (g->pause_menu->selected == 1)
 			game_pause(g, 0);
 		else if (g->pause_menu->selected == 2)
-			ft_putendl_fd("Restart", 1);
+			reset_game(g);
 		else if (g->pause_menu->selected == 3)
 			mlx_close_window(g->mlx);
 	}

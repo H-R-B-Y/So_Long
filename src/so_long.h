@@ -211,22 +211,26 @@ int	init_end_screen(t_game *g);
  * @brief Re-draws the step counter.
  * @param g game to update the step counter for.
  */
-void update_step_counter(t_game *g);
+void		update_step_counter(t_game *g);
 
 mlx_image_t	*center_txt(char *str, t_game *g, t_position pos);
 
 /**
  * 
  */
-void game_pause_hook(void *param);
+void	game_pause_hook(void *param);
 
 /**
  * 
  */
-int	game_pause(t_game *game, int status);
+int		game_pause(t_game *game, int status);
 
 void	handle_choice(t_game *g);
 void	handle_menu_selection(t_game *g);
+
+void	dummy_clr(void *content);
+
+int		reset_game(t_game *g);
 
 int		destroy_pause(t_game *g);
 

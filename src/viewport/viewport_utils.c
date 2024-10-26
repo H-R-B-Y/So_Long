@@ -71,7 +71,7 @@ int	calc_view_size(t_viewprt *view, t_position size)
 		|| size.y < 1
 		|| size.x < 1)
 		return (0);
-	free_inst_matrix(view->fg_matrix, min_pos(view->size, view->map->size));
+	free_inst_matrix(view->fg_matrix, view_iterator(view));
 	view->size = size;
 	view->tile_size = (t_position){view->mlx->height / size.y,
 		view->mlx->width / size.x};
