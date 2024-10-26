@@ -15,20 +15,18 @@
 
 # include "../viewport.h"
 
-typedef struct s_view_obj t_view_obj;
-
+typedef struct s_view_obj	t_view_obj;
 
 /**
  * @brief Create an animation instance
  */
 t_view_obj	*create_anim_instance(t_position pos, int depth,
-	t_anim_sprite *sprite);
+				t_anim_sprite *sprite);
 
-int enable_anim_instance(t_view_obj *obj, t_viewprt *view);
+int			enable_anim_instance(t_view_obj *obj, t_viewprt *view);
 
+int			disable_anim_instance(t_view_obj *obj, t_viewprt *view);
 
-int disable_anim_instance(t_view_obj *obj, t_viewprt *view);
-
-void destroy_anim_instance(void *data, t_viewprt *view);
+void		destroy_anim_instance(void *data, t_viewprt *view);
 
 #endif

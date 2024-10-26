@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-static mlx_image_t	*center_txt(char *str, t_game *g, t_position pos)
+mlx_image_t	*center_txt(char *str, t_game *g, t_position pos)
 {
 	mlx_image_t	*img;
 
@@ -24,7 +24,7 @@ static mlx_image_t	*center_txt(char *str, t_game *g, t_position pos)
 	return (img);
 }
 
-static void game_end(void *g)
+static void	game_end(void *g)
 {
 	t_game	*game;
 
@@ -34,7 +34,7 @@ static void game_end(void *g)
 	return ;
 }
 
-int init_end_screen(t_game *g)
+int	init_end_screen(t_game *g)
 {
 	mlx_image_t	*img;
 	char		*str;
@@ -43,14 +43,14 @@ int init_end_screen(t_game *g)
 	str = fancy_str_join("You won in ", ft_itoa(g->steps), 2);
 	str = fancy_str_join(str, " steps!", 1);
 	img = center_txt(
-				str, g, (t_position){
-					g->mlx->height / 2, g->mlx->width / 2});
+			str, g, (t_position){
+			g->mlx->height / 2, g->mlx->width / 2});
 	free(str);
 	ft_lstadd_back(&g->cleanup, ft_lstnew(img));
 	img = center_txt(
-				"Press 'ESC' to exit", g, (t_position){
-					g->mlx->height / 2
-					+ (img->height * 1.8) , g->mlx->width / 2});
+			"Press 'ESC' to exit", g, (t_position){
+			g->mlx->height / 2
+			+ (img->height * 1.8), g->mlx->width / 2});
 	ft_lstadd_back(&g->cleanup, ft_lstnew(img));
 	mlx_loop_hook(g->mlx, game_end, g);
 	return (1);

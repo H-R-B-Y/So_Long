@@ -39,7 +39,7 @@ int	init_game_map(t_game *game, char *map_path)
 		return (0);
 	close(fd);
 	game->view = init_viewport(game->mlx, game->map,
-		(char *[2]){"assets/fg.png", "assets/bg.png"});
+			(char *[2]){"assets/fg.png", "assets/bg.png"});
 	if (!game->view)
 		return (0);
 	game->view->need_redraw = 1;
@@ -57,7 +57,7 @@ int	init_hooks(t_game *game)
 	if (!code)
 		return (0);
 	code = mlx_loop_hook(game->mlx, movement_hook, game);
-	// Need movement hooks
+	code = mlx_loop_hook(game->mlx, game_pause_hook, game);
 	return (1);
 }
 
@@ -79,6 +79,8 @@ void	cleanup_game(t_game *game)
 	destroy_image_lst(game->mlx, game->plyr.dir_frames);
 	if (game->cleanup)
 		destroy_image_lst(game->mlx, game->cleanup);
+	if (game->pause_menu)
+		destroy_pause(game);
 	if (game->mlx)
 		mlx_terminate(game->mlx);
 }

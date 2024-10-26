@@ -22,7 +22,6 @@
 
 # include "../utils/utils.h"
 
-
 /*
 
 ██╗   ██╗██╗███████╗██╗    ██╗      
@@ -42,10 +41,10 @@
  */
 
 // Aspect ratio 16:9
-# define VIEWPORT_WIDTH (15)
-# define VIEWPORT_HEIGHT (9 * 1)
+# define VIEWPORT_WIDTH 15
+# define VIEWPORT_HEIGHT 9
 
-typedef struct s_viewport t_viewprt;
+typedef struct s_viewport	t_viewprt;
 
 struct s_viewport
 {
@@ -71,7 +70,7 @@ struct s_viewport
  * @param path path to the background image
  * @return pointer to the background image if successful, 0 if not
  */
-mlx_image_t	*init_background(t_viewprt *view, char *path);
+mlx_image_t		*init_background(t_viewprt *view, char *path);
 
 /**
  * @brief Initialize the foreground
@@ -80,7 +79,7 @@ mlx_image_t	*init_background(t_viewprt *view, char *path);
  * @return pointer to the foreground image if successful, 0 if not
  * This will draw the foreground on top of the background
  */
-mlx_image_t	*init_foreground(t_viewprt *view, char *path);
+mlx_image_t		*init_foreground(t_viewprt *view, char *path);
 
 /**
  * @brief Initialize the viewport
@@ -89,54 +88,54 @@ mlx_image_t	*init_foreground(t_viewprt *view, char *path);
  * @param textures array of paths to textures
  * @return pointer to the viewport if successful, 0 if not
  */
-t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2]);
+t_viewprt		*init_viewport(mlx_t *mlx, t_map *map, char *textures[2]);
 
 /**
  * @brief Destroy the viewport
  * @param view viewport to destroy
  */
-void		destroy_viewport(t_viewprt *view);
+void			destroy_viewport(t_viewprt *view);
 
 /**
  * @brief Draw the viewport
  * @param view viewport to draw
  * @return 1 if successful, 0 if not
  */
-int			draw_viewport(t_viewprt *view);
+int				draw_viewport(t_viewprt *view);
 
 /**
  * @brief Calculate the viewport size
  * @param view viewport to calculate the size for
  * @param size new viewport size
  */
-int			calc_view_size(t_viewprt *view, t_position size);
+int				calc_view_size(t_viewprt *view, t_position size);
 
 /**
  * @brief translate map position to screen position
  * @param view viewport to translate for
  * @param pos position on the map
  */
-t_position	view_map_to_scrn(t_viewprt *view, t_position pos);
+t_position		view_map_to_scrn(t_viewprt *view, t_position pos);
 
 /**
  * @brief translate screen position to map position
  * @param view viewport to translate for
  * @param pos position on the screen
  */
-t_position	view_scrn_to_map(t_viewprt *view, t_position pos);
+t_position		view_scrn_to_map(t_viewprt *view, t_position pos);
 
 /**
  * @brief Get the iterator for the viewport
  * @param view viewport to get the iterator for
  * @return position iterator
  */
-t_position	view_iterator(t_viewprt *view);
+t_position		view_iterator(t_viewprt *view);
 
 /**
  * @brief MLX hook for drawing the viewport.
  * @param param pointer to the viewport
  */
-void	draw_viewport_hook(void *param);
+void			draw_viewport_hook(void *param);
 
 /**
  * @brief Set the state of the foreground or background
@@ -144,7 +143,7 @@ void	draw_viewport_hook(void *param);
  * @param index 0 for foreground, 1 for background
  * @param state 0 for disabled, 1 for enabled
  */
-void	view_fgbg_state(t_viewprt *view, int index, int state);
+void			view_fgbg_state(t_viewprt *view, int index, int state);
 
 /*
 ██╗███╗   ██╗███████╗████████╗      
@@ -168,21 +167,22 @@ void	view_fgbg_state(t_viewprt *view, int index, int state);
  * @param view viewport to move
  * @param direction direction to move in
  * @note Check for walls before this point
- * @note Check players current offset before this point (offset needs to be reduced to 0 before moving)
+ * @note Check players current offset before this point
+ * 		(offset needs to be reduced to 0 before moving)
  * @note Direction should be normalized
  */
 void			move_viewport(t_viewprt view, t_position direction);
 
-void		move_matrix(t_viewprt *view,
-				mlx_image_t *parent,
-				int **instance_matrix,
-				int depth);
-void		free_inst_matrix(int **instances, t_position size);
-int			**create_inst_matrix(mlx_t *mlx,
-				mlx_image_t	*img,
-				t_position	size);
+void			move_matrix(t_viewprt *view,
+					mlx_image_t *parent,
+					int **instance_matrix,
+					int depth);
+void			free_inst_matrix(int **instances, t_position size);
+int				**create_inst_matrix(mlx_t *mlx,
+					mlx_image_t	*img,
+					t_position	size);
 
-typedef struct s_view_obj t_view_obj;
+typedef struct s_view_obj	t_view_obj;
 
 /*
 ██╗   ██╗██╗███████╗██╗    ██╗   
@@ -201,8 +201,11 @@ typedef struct s_view_obj t_view_obj;
                                  
 */
 
-typedef int (*t_view_obj_enable)(t_view_obj *obj, struct s_viewport *view);
-typedef int (*t_view_obj_disable)(t_view_obj *obj, struct s_viewport *view);
+typedef int					(*t_view_obj_enable)(t_view_obj *obj,
+			struct s_viewport	*view);
+
+typedef int					(*t_view_obj_disable)(t_view_obj *obj,
+			struct s_viewport	*view);
 
 /**
  * @brief Structure to hold the object to be displayed on the viewport
@@ -231,10 +234,10 @@ struct s_view_obj
  * @param disable Function to disable the object
  * @return Pointer to the new object if successful, 0 if not
  */
-t_view_obj	*create_viewport_obj(t_position pos,
-				void *obj,
-				t_view_obj_enable enable,
-				t_view_obj_disable disable);
+t_view_obj		*create_viewport_obj(t_position pos,
+					void *obj,
+					t_view_obj_enable enable,
+					t_view_obj_disable disable);
 
 /**
  * @brief Add an object to the viewport
@@ -243,7 +246,7 @@ t_view_obj	*create_viewport_obj(t_position pos,
  * @return 1 if successful, 0 if not
  * @note The object will be added to the end of the list
  */
-int			view_add_obj(t_viewprt *view, t_view_obj *obj);
+int				view_add_obj(t_viewprt *view, t_view_obj *obj);
 
 /**
  * @warning Make sure obj has the correct destroy function
@@ -254,13 +257,13 @@ int			view_add_obj(t_viewprt *view, t_view_obj *obj);
  * @note The object will be deleted from the list
  * @note The object and it's data will be destroyed
  */
-int			view_del_obj(t_viewprt *view, t_view_obj *obj);
+int				view_del_obj(t_viewprt *view, t_view_obj *obj);
 
 /**
  * @brief Draw objects that are in the viewport
  * @param view Pointer to the viewport
  * @return 1 if successful, 0 if not
  */
-int			viewport_draw_objects(t_viewprt *view);
+int				viewport_draw_objects(t_viewprt *view);
 
 #endif

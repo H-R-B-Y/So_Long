@@ -53,6 +53,4 @@ int				enable_instance(t_view_obj *obj,
 int				disable_instance(t_view_obj *obj,
 					t_viewprt *view);
 
-
-
 #endif

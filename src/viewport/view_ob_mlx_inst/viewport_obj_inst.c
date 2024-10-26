@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 /*
-These are example functions that wrap the MLX42 instance to be used as a viewport object.
+These are example functions that wrap
+the MLX42 instance to be used as a viewport object.
 
 Note: Because the view object destory function
 	is set to free, we need to keep track of the
@@ -47,7 +48,8 @@ int	enable_instance(t_view_obj *obj, t_viewprt *view)
 	if (!data || !data->image || data->instance < 0)
 		return (0);
 	mlx_resize_image(data->image, view->tile_size.y, view->tile_size.x);
-	mlx_set_instance_depth(&(data->image->instances[data->instance]), obj->depth);
+	mlx_set_instance_depth(&(data->image->instances[data->instance]),
+		obj->depth);
 	data->image->instances[data->instance].enabled = 1;
 	data->image->instances[data->instance].x
 		= view_map_to_scrn(view, obj->pos).x;
@@ -69,7 +71,7 @@ int	disable_instance(t_view_obj *obj, t_viewprt *view)
 	return (1);
 }
 
-void destroy_obj_instance(void *data, t_viewprt *view)
+void	destroy_obj_instance(void *data, t_viewprt *view)
 {
 	t_obj_mlx_inst	*obj;
 

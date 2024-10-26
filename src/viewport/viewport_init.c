@@ -18,7 +18,6 @@ mlx_image_t	*init_background(t_viewprt *view, char *path)
 	int				**instance_array;
 	t_position		size;
 
-
 	image = image_from_path(view->mlx, path);
 	if (!image)
 		return (0);
@@ -42,7 +41,6 @@ mlx_image_t	*init_foreground(t_viewprt *view, char *path)
 	int				**instance_array;
 	t_position		size;
 
-
 	image = image_from_path(view->mlx, path);
 	if (!image)
 		return (0);
@@ -62,7 +60,7 @@ mlx_image_t	*init_foreground(t_viewprt *view, char *path)
 
 t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 {
-	t_viewprt *view;
+	t_viewprt	*view;
 
 	view = zeroit(malloc(sizeof(t_viewprt)), sizeof(t_viewprt));
 	if (!view)
@@ -72,12 +70,13 @@ t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 	view->size = (t_position){VIEWPORT_HEIGHT, VIEWPORT_WIDTH};
 	view->tile_size = (t_position){mlx->height / VIEWPORT_HEIGHT,
 		mlx->width / VIEWPORT_WIDTH};
-	view->map_smaller = (t_position){VIEWPORT_HEIGHT > map->height, VIEWPORT_WIDTH > map->width};
+	view->map_smaller = (t_position){VIEWPORT_HEIGHT > map->height,
+		VIEWPORT_WIDTH > map->width};
 	view->map_offset = (t_position){
 		(((VIEWPORT_HEIGHT - map->height) / 2) * view->tile_size.y)
-			* view->map_smaller.y,
+		* view->map_smaller.y,
 		(((VIEWPORT_WIDTH - map->width) / 2) * view->tile_size.y)
-			* view->map_smaller.x};
+		* view->map_smaller.x};
 	if (textures && textures[0] && !init_background(view, textures[0]))
 		return (free(view), (void *)0);
 	if (textures && textures[0] && !init_foreground(view, textures[1]))
@@ -86,10 +85,10 @@ t_viewprt	*init_viewport(mlx_t *mlx, t_map *map, char *textures[2])
 	return (view);
 }
 
-void destroy_viewport(t_viewprt *view)
+void	destroy_viewport(t_viewprt *view)
 {
-	t_list *obj;
-	t_view_obj *instance;
+	t_list		*obj;
+	t_view_obj	*instance;
 
 	obj = view->objects;
 	while (obj)
@@ -109,6 +108,8 @@ void destroy_viewport(t_viewprt *view)
 
 void	draw_viewport_hook(void *param)
 {
-	t_viewprt *view = (t_viewprt *)param;
+	t_viewprt	*view;
+
+	view = (t_viewprt *)param;
 	draw_viewport(view);
 }

@@ -19,11 +19,11 @@
 
 # ifndef MAP_KEY
 #  define MAP_KEY "#0PEC"
-#  define MAP_WALL MAP_KEY[0]
-#  define MAP_EMPT MAP_KEY[1]
-#  define MAP_PLAY MAP_KEY[2]
-#  define MAP_EXIT MAP_KEY[3]
-#  define MAP_COIN MAP_KEY[4]
+#  define MAP_WALL '#'
+#  define MAP_EMPT '0'
+#  define MAP_PLAY 'P'
+#  define MAP_EXIT 'E'
+#  define MAP_COIN 'C'
 # endif
 
 /**

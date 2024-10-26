@@ -19,7 +19,6 @@ static void	_fg_enable_loop(t_viewprt *view,
 	t_position	pos;
 
 	iter.y = 0;
-
 	while (iter.y < size.y)
 	{
 		pos.y = iter.y + view->offset.y;
@@ -28,9 +27,11 @@ static void	_fg_enable_loop(t_viewprt *view,
 		{
 			pos.x = iter.x + view->offset.x;
 			if (view->map->map[pos.y][pos.x] == MAP_WALL)
-				view->fg_img->instances[view->fg_matrix[iter.y][iter.x]].enabled = 1;
+				view->fg_img->instances[
+					view->fg_matrix[iter.y][iter.x]].enabled = 1;
 			else
-				view->fg_img->instances[view->fg_matrix[iter.y][iter.x]].enabled = 0;
+				view->fg_img->instances[
+					view->fg_matrix[iter.y][iter.x]].enabled = 0;
 			iter.x++;
 		}
 		iter.y++;
@@ -48,7 +49,7 @@ int	draw_viewport(t_viewprt *view)
 	return (1);
 }
 
-int resize_larger(t_viewprt *view)
+int	resize_larger(t_viewprt *view)
 {
 	view->map_smaller = (t_position){
 		view->map->size.y < view->size.y,

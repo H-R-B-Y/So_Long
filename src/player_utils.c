@@ -12,11 +12,11 @@
 
 #include "so_long.h"
 
-void set_player_pos(t_game *game, t_position pos)
+void	set_player_pos(t_game *game, t_position pos)
 {
 	t_list		*img;
 	mlx_image_t	*img_inst;
-	
+
 	pos = view_map_to_scrn(game->view, pos);
 	img = game->plyr.dir_frames;
 	while (img)
@@ -48,7 +48,6 @@ int	valdidate_mov(t_game *game, int direction)
 	if (direction < 0 || direction > 3)
 		return (0);
 	new_pos = game->plyr.pos;
-
 	if ((!new_pos.x && direction == 3)
 		|| (new_pos.x == game->map->width - 1 && direction == 1)
 		|| (!new_pos.y && direction == 0)
@@ -75,19 +74,19 @@ t_list	*player_on_coin(t_game *game)
 	{
 		if (coins->content)
 		{
-		coin = ((t_view_obj *)coins->content)->pos;
-		if (((t_anim_sprite *)((t_view_obj *)coins->content)->data)
-			->enabled
-			&& coin.x == pos.x && coin.y == pos.y)
-			return (coins);
-		coins = coins->next;
+			coin = ((t_view_obj *)coins->content)->pos;
+			if (((t_anim_sprite *)((t_view_obj *)coins->content)->data)
+				->enabled
+				&& coin.x == pos.x && coin.y == pos.y)
+				return (coins);
+			coins = coins->next;
 		}
 		i++;
 	}
 	return (0);
 }
 
-int player_on_exit(t_game *g)
+int	player_on_exit(t_game *g)
 {
 	if (!g->exit_open)
 		return (0);

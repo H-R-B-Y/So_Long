@@ -16,11 +16,11 @@ static int	pos_in_view(t_position pos, t_viewprt *view)
 {
 	if (pos.y < view->offset.y
 		|| pos.y > view->offset.y
-			+ view->size.y)
+		+ view->size.y)
 		return (0);
 	if (pos.x < view->offset.x
 		|| pos.x > view->offset.x
-			+ view->size.x)
+		+ view->size.x)
 		return (0);
 	return (1);
 }

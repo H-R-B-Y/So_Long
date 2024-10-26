@@ -12,7 +12,7 @@
 
 #include "view_obj_anim.h"
 
-int enable_anim_instance(t_view_obj *obj, t_viewprt *view)
+int	enable_anim_instance(t_view_obj *obj, t_viewprt *view)
 {
 	t_anim_sprite	*data;
 	t_position		pos;
@@ -28,7 +28,7 @@ int enable_anim_instance(t_view_obj *obj, t_viewprt *view)
 	return (1);
 }
 
-int disable_anim_instance(t_view_obj *obj, t_viewprt *view)
+int	disable_anim_instance(t_view_obj *obj, t_viewprt *view)
 {
 	t_anim_sprite	*data;
 
@@ -41,7 +41,7 @@ int disable_anim_instance(t_view_obj *obj, t_viewprt *view)
 	return (1);
 }
 
-void destroy_anim_instance(void *data, t_viewprt *view)
+void	destroy_anim_instance(void *data, t_viewprt *view)
 {
 	if (!data || !view)
 		return ;

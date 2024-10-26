@@ -22,14 +22,14 @@ t_view_obj	*create_viewport_obj(t_position pos,
 	if (!data)
 		return (0);
 	view_obj = zeroit(malloc(sizeof(t_view_obj)),
-		sizeof(t_view_obj));
+			sizeof(t_view_obj));
 	if (!view_obj)
 		return (0);
 	view_obj->pos = pos;
 	view_obj->data = data;
 	view_obj->enable = enable;
 	view_obj->disable = disable;
-	view_obj->depth = 3; // default to 3
+	view_obj->depth = 3;
 	view_obj->destroy = 0;
 	view_obj->enabled = 1;
 	return (view_obj);
@@ -55,8 +55,8 @@ static void	view_obj_destroy(t_viewprt *view, t_view_obj *obj)
 
 int	view_del_obj(t_viewprt *view, t_view_obj *obj)
 {
-	t_list *index;
-	t_list *prev;
+	t_list	*index;
+	t_list	*prev;
 
 	if (!view || !obj)
 		return (0);

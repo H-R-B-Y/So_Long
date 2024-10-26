@@ -18,13 +18,12 @@
 
 # include <stdlib.h>
 
-
 /**
  * @brief Structure to hold a frame.
  * @param image MLX image for the frame.
  * @param instance The index in the instance list of this sprite.
  */
-typedef struct	s_frame t_frame;
+typedef struct s_frame			t_frame;
 
 /**
  * @brief Structure to hold an animated sprite.
@@ -42,7 +41,7 @@ typedef struct	s_frame t_frame;
  * @param loop The loop function.
  * @param context Additional data, if needed.
  */
-typedef struct	s_anim_sprite t_anim_sprite;
+typedef struct s_anim_sprite	t_anim_sprite;
 
 /**
  * @brief Internal function to create a frame from an image.
@@ -50,14 +49,15 @@ typedef struct	s_anim_sprite t_anim_sprite;
  * @param mlx The MLX instance handle.
  * @param paused Whether the engine is paused.
  */
-typedef size_t	(*t_loop_type)(t_anim_sprite *sprite);
+typedef size_t					(*t_loop_type)(
+						t_anim_sprite *sprite);
 
 /**
  * @brief Structure to hold a frame.
  * @param image MLX image for the frame.
  * @param instance The index in the instance list of this sprite.
  */
-typedef t_list	*t_frame_list;
+typedef t_list					*t_frame_list;
 
 /**
  * @brief Internal function to create a frame from an image.
@@ -65,7 +65,7 @@ typedef t_list	*t_frame_list;
  * @param mlx The MLX instance handle.
  * @param paused Whether the engine is paused.
  */
-typedef struct	s_anim_engine t_anim_engine;
+typedef struct s_anim_engine	t_anim_engine;
 
 /**
  * @brief Structure to hold a frame.
@@ -106,7 +106,7 @@ struct s_anim_sprite
 	int					z; // not sure how relevant this is
 	short				enabled;
 	short				loop_enabled;
-	short 				finished;
+	short				finished;
 	t_loop_type			loop;
 	void				*context;
 };
@@ -121,7 +121,7 @@ struct s_anim_engine
 {
 	t_list		*sprite_list;
 	mlx_t		*mlx;
-	int 		paused;
+	int			paused;
 };
 
 /**
@@ -167,7 +167,8 @@ void			anim_engine_cleanup(t_anim_engine *engine);
  * @param frame_duration The duration of each frame.
  * @return The created sprite or null on failure.
  */
-t_anim_sprite	*anim_sprite_create(t_anim_engine *engine, t_list *frame_list, double frame_duration);
+t_anim_sprite	*anim_sprite_create(t_anim_engine *engine,
+					t_list *frame_list, double frame_duration);
 
 /**
  * @brief Destroys an animation sprite.
@@ -182,7 +183,8 @@ void			anim_destroy_sprite(t_anim_sprite *sprite);
  * @param loop The loop type.
  * @param loop_enabled Whether the loop is enabled.
  */
-void			anim_set_loop(t_anim_sprite *sprite, t_loop_type loop, short loop_enabled);
+void			anim_set_loop(t_anim_sprite *sprite,
+					t_loop_type loop, short loop_enabled);
 
 /**
  * @brief Sets the position of the sprite.
@@ -192,12 +194,14 @@ void			anim_set_loop(t_anim_sprite *sprite, t_loop_type loop, short loop_enabled
  * @param z The z position.
  * @note This function will also set the position of all frames.
  */
-void			anim_set_pos(t_anim_sprite *sprite, int32_t x, int32_t y, int32_t z);
+void			anim_set_pos(t_anim_sprite *sprite,
+					int32_t x, int32_t y, int32_t z);
 
 /**
  * @brief Sets the enabled state of the sprite.
  * 
- * @note This needs to ensure that the sprite is in a valid state before enabling.
+ * @note This needs to ensure that the sprite in
+ * 		 in a valid state before enabling.
  * 
  * @param sprite The sprite to set the enabled state of.
  * @param enabled The enabled state.
@@ -223,7 +227,7 @@ void			anim_engine_update(t_anim_engine *engine);
  * @param param The engine to update.
  * @note This function is meant to be used as a loop hook.
  */
-void			anim_update_hook(void* param);
+void			anim_update_hook(void *param);
 
 /**
  * @brief Checks if the sprite needs an update.

@@ -27,6 +27,7 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"so_long.h": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"pause.h": "c"
 	}
 }

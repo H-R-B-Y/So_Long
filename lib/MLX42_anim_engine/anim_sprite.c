@@ -43,7 +43,8 @@ void	anim_destroy_sprite(t_anim_sprite *sprite)
 	free(sprite);
 }
 
-void	anim_set_loop(t_anim_sprite *sprite, t_loop_type loop, short loop_enabled)
+void	anim_set_loop(t_anim_sprite *sprite,
+			t_loop_type loop, short loop_enabled)
 {
 	sprite->loop = loop;
 	sprite->loop_enabled = loop_enabled;

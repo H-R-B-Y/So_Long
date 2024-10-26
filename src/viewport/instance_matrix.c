@@ -21,6 +21,7 @@ void	free_inst_matrix(int **instances, t_position size)
 		free(instances[iter.y++]);
 	free(instances);
 }
+
 void	move_matrix(t_viewprt *view,
 	mlx_image_t *parent,
 	int **instance_matrix,
@@ -41,7 +42,7 @@ void	move_matrix(t_viewprt *view,
 				view_map_to_scrn(
 					view,
 					(t_position){iter.y, iter.x}
-				), depth);
+					), depth);
 			iter.x++;
 		}
 		iter.y++;

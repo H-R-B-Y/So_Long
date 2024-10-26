@@ -12,7 +12,7 @@
 
 #include "viewport.h"
 
-t_position view_map_to_scrn(t_viewprt *view, t_position pos)
+t_position	view_map_to_scrn(t_viewprt *view, t_position pos)
 {
 	if (!view)
 		return ((t_position){0, 0});
@@ -26,7 +26,7 @@ t_position view_map_to_scrn(t_viewprt *view, t_position pos)
 				* view->tile_size.x) + view->map_offset.x)});
 }
 
-t_position view_scrn_to_map(t_viewprt *view, t_position pos)
+t_position	view_scrn_to_map(t_viewprt *view, t_position pos)
 {
 	if (!view)
 		return ((t_position){0, 0});
@@ -44,9 +44,9 @@ t_position	view_iterator(t_viewprt *view)
 {
 	return ((t_position){
 		(view->size.y * !view->map_smaller.y)
-			+ (view->map->size.y * view->map_smaller.y),
+		+ (view->map->size.y * view->map_smaller.y),
 		(view->size.x * !view->map_smaller.x)
-			+ (view->map->size.x * view->map_smaller.x)});
+		+ (view->map->size.x * view->map_smaller.x)});
 }
 
 void	view_fgbg_state(t_viewprt *view, int index, int state)

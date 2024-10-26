@@ -28,12 +28,12 @@
 # include "../include/dijkstra_debug.h"
 # include "../include/map_parse.h"
 # include "../include/anim_engine.h"
+
 # include "viewport/viewport.h"
 # include "viewport/view_ob_mlx_inst/viewport_obj_inst.h"
 # include "viewport/view_obj_anim_obj/view_obj_anim.h"
 # include "utils/utils.h"
 
-# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -63,6 +63,9 @@ typedef struct s_game t_game;
  * - GM_END: Game has ended.
  */
 typedef enum e_game_state t_game_state;
+
+
+typedef struct s_paus_mnu t_paus_mnu;
 
 /**
  * @brief Structure to hold the player.
@@ -99,6 +102,15 @@ struct s_player
 	double			mov_tmr;
 };
 
+struct s_paus_mnu
+{
+	t_list		*cleanup;
+	mlx_image_t	*items[3];
+	mlx_image_t	*selector;
+	int			selected;
+	int			last_selected;
+};
+
 struct s_game
 {
 	mlx_t			*mlx;
@@ -113,18 +125,14 @@ struct s_game
 	int				exit_open;
 	t_view_obj		*exit_obj;
 	t_list			*cleanup;
+	t_paus_mnu		*pause_menu;
 	t_game_state	state;
 };
-
-
-
 
 int		init_game(t_game *game, char *str);
 int		init_game_map(t_game *game, char *map_path);
 int		init_hooks(t_game *game);
 void	cleanup_game(t_game *game);
-
-
 
 int		init_sprites(t_game *game);
 int		init_coins(t_game *game);
@@ -204,5 +212,22 @@ int	init_end_screen(t_game *g);
  * @param g game to update the step counter for.
  */
 void update_step_counter(t_game *g);
+
+mlx_image_t	*center_txt(char *str, t_game *g, t_position pos);
+
+/**
+ * 
+ */
+void game_pause_hook(void *param);
+
+/**
+ * 
+ */
+int	game_pause(t_game *game, int status);
+
+void	handle_choice(t_game *g);
+void	handle_menu_selection(t_game *g);
+
+int		destroy_pause(t_game *g);
 
 #endif

@@ -23,15 +23,14 @@ static void	mv_view_or_plyr(t_game *g, int dir)
 		g->view->offset.y -= 1 * (g->view->offset.y > 0);
 	else if (dir == 1 && pov_x > g->view->size.x / 2)
 		g->view->offset.x += 1 * (
-					(g->view->offset.x + g->view->size.x)
+				(g->view->offset.x + g->view->size.x)
 				< g->map->width);
 	else if (dir == 2 && pov_y > g->view->size.y / 2)
 		g->view->offset.y += 1 * (
-					(g->view->offset.y + g->view->size.y)
+				(g->view->offset.y + g->view->size.y)
 				< g->map->height);
 	else if (dir == 3 && pov_x < g->view->size.x / 2)
 		g->view->offset.x -= 1 * (g->view->offset.x > 0);
-
 }
 
 static int	get_direction(mlx_t *mlx)
@@ -88,7 +87,6 @@ static int	handle_movement(t_game *g)
 void	movement_hook(void *game)
 {
 	t_game	*g;
-	
 
 	g = (t_game *)game;
 	g->plyr.mov_tmr += g->mlx->delta_time

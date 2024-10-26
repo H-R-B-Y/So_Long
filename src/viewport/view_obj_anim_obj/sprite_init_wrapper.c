@@ -14,7 +14,7 @@
 
 static void	__err_img_list(mlx_t *mlx, t_list *lst)
 {
-	t_list *index;
+	t_list	*index;
 
 	index = lst;
 	while (index)
@@ -63,7 +63,7 @@ t_view_obj	*create_anim_instance(t_position pos, int depth,
 		return (0);
 	anim_set_state(sprite, 0);
 	view_obj = create_viewport_obj(pos, sprite,
-		enable_anim_instance, disable_anim_instance);
+			enable_anim_instance, disable_anim_instance);
 	if (!view_obj)
 		return (0);
 	view_obj->depth = depth;
