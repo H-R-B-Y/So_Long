@@ -120,6 +120,7 @@ struct s_game
 	size_t			c_count;
 	size_t			steps;
 	mlx_image_t		*step_img;
+	mlx_image_t		*coinint_img;
 	int				exit_open;
 	t_view_obj		*exit_obj;
 	t_list			*cleanup;

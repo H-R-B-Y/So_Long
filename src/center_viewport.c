@@ -19,8 +19,8 @@ void	center_viewport(t_viewprt *v, t_position p)
 	off = (t_position){
 		(p.y - (v->size.y / 2)) * (!v->map_smaller.y),
 		(p.x - (v->size.x / 2)) * (!v->map_smaller.x)};
-	off.y = clamp(off.y, 0, clamp(v->map->size.y - v->size.y, 0, v->size.y));
-	off.x = clamp(off.x, 0, clamp(v->map->size.x - v->size.x, 0, v->size.x));
+	off.y = clamp(off.y, 0, clamp(v->map->size.y - v->size.y, 0, v->map->size.y));
+	off.x = clamp(off.x, 0, clamp(v->map->size.x - v->size.x, 0, v->map->size.x));
 	v->offset = off;
 	v->need_redraw = 1;
 }

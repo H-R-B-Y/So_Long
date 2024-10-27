@@ -60,13 +60,13 @@ int	init_player(t_game *game)
 // not implemented
 int	init_sprites(t_game *game)
 {
-	if (!init_coins(game))
-		return (0);
 	if (!init_player(game))
 		return (0);
 	game->plyr.cur_dir = 0;
 	game->plyr.mov_delay = 0.2;
 	game->plyr.mov_tmr = 0;
+	if (!init_coins(game))
+		return (0);
 	if (!init_exit(game))
 		return (0);
 	return (1);
