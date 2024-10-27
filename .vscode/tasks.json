@@ -45,9 +45,7 @@
 			"label": "Make so_long",
 			"command": "make",
 			"args": [
-				"re",
-				"DEBUG=debug",
-				"PRINT_DELAY=1"
+
 			],
 			"group": {
 				"kind": "build",

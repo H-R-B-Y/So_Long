@@ -22,6 +22,8 @@ int	enable_exit(t_game *g)
 	((t_anim_sprite *)exit_obj->data)->finished = 0;
 	anim_set_state(exit_obj->data, 1);
 	g->exit_open = 1;
+	g->view->need_redraw = 1;
+	draw_viewport(g->view);
 	return (1);
 }
 

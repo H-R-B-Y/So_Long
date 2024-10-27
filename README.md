@@ -21,7 +21,7 @@
 	```sh
 	cd so_long
 	```
-3. Clone Library dependancies
+3. Clone MLX42 dependency
 	```sh
 	cd lib
 	git clone https://github.com/codam-coding-college/MLX42
@@ -35,7 +35,7 @@
 ## Usage
 Run the game with the following command:
 ```sh
-./so_long maps/map.ber
+./so_long.out {map file}
 ```
 
 ## Controls
@@ -46,6 +46,13 @@ Run the game with the following command:
 - `ESC` - Pause Menu / Exit upon winning
 - `Arrow key` - Navigate pause menu
 - `Enter` - Select for pause menu
+
+## Other
+If you want to see funny pathfinding algo go brrr use run compile with this:
+```sh
+make re DEBUG="debug" PRINT_DELAY="1000"
+```
+Then you can run `./so_long.out {map file}` and it will do the funny path finding thing :P
 
 ## License
 Idk whatever MLX42 uses
