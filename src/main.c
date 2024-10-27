@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 	}
 	// Initialize the hooks
 	init_sprites(&game);
+	center_viewport(game.view, game.map->player);
 	set_player_pos(&game, game.map->player);
 	((mlx_image_t *)ft_lstget(game.plyr.dir_frames, game.plyr.cur_dir)->content)->enabled = 1;
 	if (!init_hooks(&game))

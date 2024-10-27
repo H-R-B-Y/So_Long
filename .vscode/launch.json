@@ -32,7 +32,7 @@
 		"type": "cppdbg",
 		"request": "launch",
 		"program": "${workspaceRoot}/so_long.out",
-		"args": ["lib/map_parse/test/test_maps/valid1"],
+		"args": ["lib/map_parse/test/test_maps/valid2"],
 		"stopAtEntry": false,
 		"cwd": "${workspaceRoot}",
 		"environment": [],

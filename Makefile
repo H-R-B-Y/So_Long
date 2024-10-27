@@ -49,7 +49,8 @@ SRCS			:= $(SRC_DIR)/so_long_init.c \
 				$(SRC_DIR)/step_counter.c \
 				$(SRC_DIR)/pause/pause.c \
 				$(SRC_DIR)/pause/pause_menu.c \
-				$(SRC_DIR)/pause/reset_game.c
+				$(SRC_DIR)/pause/reset_game.c \
+				$(SRC_DIR)/center_viewport.c
 
 
 OBJS			:= ${SRCS:.c=.o}

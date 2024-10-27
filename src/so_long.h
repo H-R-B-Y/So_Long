@@ -234,4 +234,6 @@ int		reset_game(t_game *g);
 
 int		destroy_pause(t_game *g);
 
+void center_viewport(t_viewprt *v, t_position p);
+
 #endif

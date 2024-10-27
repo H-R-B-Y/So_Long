@@ -43,7 +43,8 @@ void	handle_menu_selection(t_game *g)
 		if (g->pause_menu->selected < 1)
 			g->pause_menu->selected = 3;
 	}
-	else if (!mlx_is_key_down(g->mlx, MLX_KEY_DOWN) && !mlx_is_key_down(g->mlx, MLX_KEY_UP))
+	else if (!mlx_is_key_down(g->mlx, MLX_KEY_DOWN)
+		&& !mlx_is_key_down(g->mlx, MLX_KEY_UP))
 		pressed = 0;
 	enable_disable(g->pause_menu, g, 0);
 }

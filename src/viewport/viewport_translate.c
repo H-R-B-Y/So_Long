@@ -59,3 +59,4 @@ void	view_fgbg_state(t_viewprt *view, int index, int state)
 		view->bg_img->enabled = state;
 	return ;
 }
+

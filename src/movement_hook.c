@@ -92,9 +92,6 @@ void	movement_hook(void *game)
 	g->plyr.mov_tmr += g->mlx->delta_time
 		* (g->plyr.mov_tmr < g->plyr.mov_delay);
 	if (g->state == GM_PLAY && g->plyr.mov_tmr >= g->plyr.mov_delay)
-	{
-		handle_movement(g);
-		if (player_on_exit(g))
+		if (handle_movement(g) && player_on_exit(g))
 			init_end_screen(g);
-	}
 }

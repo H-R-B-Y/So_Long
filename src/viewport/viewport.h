@@ -162,17 +162,6 @@ void			view_fgbg_state(t_viewprt *view, int index, int state);
                                     
 */
 
-/**
- * @brief Move the viewport in the given direction
- * @param view viewport to move
- * @param direction direction to move in
- * @note Check for walls before this point
- * @note Check players current offset before this point
- * 		(offset needs to be reduced to 0 before moving)
- * @note Direction should be normalized
- */
-void			move_viewport(t_viewprt view, t_position direction);
-
 void			move_matrix(t_viewprt *view,
 					mlx_image_t *parent,
 					int **instance_matrix,

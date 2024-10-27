@@ -56,8 +56,9 @@ int	reset_game(t_game *g)
 	g->c_count = 0;
 	g->exit_open = 0;
 	reset_coins(g);
-	g->view->need_redraw = 1;
+	center_viewport(g->view, g->map->player);
 	set_player_pos(g, g->plyr.pos);
+	g->view->need_redraw = 1;
 	reset_exit(g);
 	g->engine->paused = 0;
 	return (1);
