@@ -12,14 +12,13 @@
 
 #include "so_long.h"
 
-void center_viewport(t_viewprt *v, t_position p)
+void	center_viewport(t_viewprt *v, t_position p)
 {
 	t_position	off;
 
 	off = (t_position){
 		(p.y - (v->size.y / 2)) * (!v->map_smaller.y),
-		(p.x - (v->size.x / 2)) * (!v->map_smaller.x)
-		};
+		(p.x - (v->size.x / 2)) * (!v->map_smaller.x)};
 	v->offset = off;
 	v->need_redraw = 1;
 }

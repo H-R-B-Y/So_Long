@@ -12,41 +12,42 @@
 
 #include "so_long.h"
 
+static int	_fail_init(t_game *g, char *reason)
+{
+	cleanup_game(g);
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(reason, 2);
+	ft_putstr_fd("\n", 2);
+	return (1);
+}
 
+static int	_pre_game(t_game *g, char *path)
+{
+	if (!init_game_map(g, path))
+		return (_fail_init(g, "Failed to initialize game map"));
+	if (!init_sprites(g))
+		return (_fail_init(g, "Failed to initialize sprites"));
+	center_viewport(g->view, g->map->player);
+	set_player_pos(g, g->map->player);
+	((mlx_image_t *)ft_lstget(g->plyr.dir_frames,
+			g->plyr.cur_dir)->content)->enabled = 1;
+	if (!init_hooks(g))
+		return (_fail_init(g, "Failed to initialize hooks"));
+	return (0);
+}
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (argc != 2)
-	{
-		ft_putstr_fd("Error\nUsage: ./so_long [map.ber]\n", 2);
-		return (1);
-	}
-	// Initialize the game with mlx instance, and anim engine
+		return (_fail_init(0, "Usage: ./so_long <map_path>"));
 	zeroit(&game, sizeof(t_game));
-	init_game(&game, argv[1]);
-	// Parse map and initialize the viewport
-	if (!init_game_map(&game, argv[1]))
-	{
-		cleanup_game(&game);
-		ft_putstr_fd("Error\nFailed to parse map\n", 2);
+	if (!init_game(&game, argv[1]))
+		return (_fail_init(&game, "Failed to initialize game"));
+	if (_pre_game(&game, argv[1]))
 		return (1);
-	}
-	// Initialize the hooks
-	init_sprites(&game);
-	center_viewport(game.view, game.map->player);
-	set_player_pos(&game, game.map->player);
-	((mlx_image_t *)ft_lstget(game.plyr.dir_frames, game.plyr.cur_dir)->content)->enabled = 1;
-	if (!init_hooks(&game))
-	{
-		cleanup_game(&game);
-		ft_putstr_fd("Error\nFailed to initialize hooks\n", 2);
-		return (1);
-	}
-	// Start the game loop
 	mlx_loop(game.mlx);
-	// Destroy the game
 	cleanup_game(&game);
 	return (0);
 }

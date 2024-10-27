@@ -12,7 +12,7 @@
 
 #include "../so_long.h"
 
-static void reset_coins(t_game *g)
+static void	reset_coins(t_game *g)
 {
 	t_list		*tmp;
 	t_view_obj	*coin;

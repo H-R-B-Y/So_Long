@@ -2,7 +2,7 @@
 # so_long
 
 ## Description
-`so_long` is a simple 2D game developed in C using the MiniLibX library. The objective of the game is to navigate through a maze, collect all the collectibles, and reach the exit.
+`so_long` is a simple 2D game developed in C using the MLX42 library provided by Codam College. The objective of the game is to navigate through a maze, collect all the collectibles, and reach the exit.
 
 ## Features
 - 2D graphics using MiniLibX
@@ -44,6 +44,8 @@ Run the game with the following command:
 - `S` - Move down
 - `D` - Move right
 - `ESC` - Pause Menu / Exit upon winning
+- `Arrow key` - Navigate pause menu
+- `Enter` - Select for pause menu
 
 ## License
 Idk whatever MLX42 uses

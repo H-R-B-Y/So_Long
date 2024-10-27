@@ -37,7 +37,7 @@ void	game_pause_hook(void *param)
 	}
 }
 
-int init_pause_menu(t_game *g)
+int	init_pause_menu(t_game *g)
 {
 	int			i;
 	t_paus_mnu	*menu;
@@ -48,15 +48,15 @@ int init_pause_menu(t_game *g)
 	if (!menu)
 		return (0);
 	img = center_txt("Paused", g,
-		(t_position){g->mlx->height / 2,  g->mlx->width / 2});
+			(t_position){g->mlx->height / 2, g->mlx->width / 2});
 	ft_lstadd_back(&menu->cleanup, ft_lstnew(img));
 	i = -1;
 	offs = (t_position){img->instances[0].y
 		+ (img->height * 1.8), g->mlx->width / 2};
 	while (++i < 3)
 	{
-		menu->items[i] =  center_txt(
-			(char *[3]){"Resume", "Restart", "Exit"}[i], g, offs);
+		menu->items[i] = center_txt(
+				(char *[3]){"Resume", "Restart", "Exit"}[i], g, offs);
 		offs.y += img->height * 1.5;
 	}
 	menu->selected = 1;
@@ -65,7 +65,7 @@ int init_pause_menu(t_game *g)
 	return (1);
 }
 
-int destroy_pause(t_game *g)
+int	destroy_pause(t_game *g)
 {
 	t_list	*item;
 	t_list	*next;

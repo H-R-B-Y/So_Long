@@ -56,9 +56,8 @@ typedef struct s_game t_game;
  * @brief Enumeration of game states.
  * 
  * States are:
- * - GM_TITLE: Title screen.
- * - GM_PAUSE: Game is paused.
  * - GM_PLAY: Game is being played.
+ * - GM_PAUSE: Game is paused.
  * - GM_WON: Game has been won.
  * - GM_END: Game has ended.
  */
@@ -89,8 +88,7 @@ enum e_game_state
 {
 	GM_PLAY,
 	GM_PAUSE,
-	GM_WON,
-	GM_END
+	GM_WON
 };
 
 struct s_player
@@ -129,12 +127,68 @@ struct s_game
 	t_game_state	state;
 };
 
+/**
+ * @brief Initialize the game.
+ * @param game game to initialize.
+ * @param str path to the map.
+ * @return 1 if successful, 0 if not.
+ * 
+ * This will init the mlx instance and the anim engine.
+ */
 int		init_game(t_game *game, char *str);
+
+
+/**
+ * @brief Initialize the game map.
+ * @param game game to initialize the map for.
+ * @param map_path path to the map.
+ * @return 1 if successful, 0 if not.
+ * 
+ * This will create the map and the viewport.
+ * Centering the viewport will need to be done manually.
+ */
 int		init_game_map(t_game *game, char *map_path);
+
+/**
+ * @brief Initialize the hooks for the game.
+ * @param game game to initialize the hooks for.
+ * @return 1 if successful, 0 if not.
+ * 
+ * The hooks are:
+ * - anim_update_hook
+ * - draw_viewport_hook
+ * - movement_hook
+ * - game_pause_hook
+ * 
+ * Other existing hooks are added during runtime.
+ */
 int		init_hooks(t_game *game);
+
+/**
+ * @brief Cleanup the game.
+ * @param game game to cleanup.
+ * 
+ * This will cleanup the game map, the sprites and the hooks.
+ */
 void	cleanup_game(t_game *game);
 
+
+/**
+ * @brief Initialize the sprites for the game.
+ * @param game game to initialize the sprites for.
+ * @return 1 if successful, 0 if not.
+ * 
+ * This will initialize the player sprite, coins,
+ * and the exit animation sprites.
+ */
 int		init_sprites(t_game *game);
+
+/**
+ * @brief Initialize the player sprite.
+ * @param game game to initialize the player sprite for.
+ * 
+ * Called by init_sprites.
+ */
 int		init_coins(t_game *game);
 
 /**
@@ -176,8 +230,28 @@ int	valdidate_mov(t_game *game, int direction);
  */
 t_list	*player_on_coin(t_game *game);
 
+
+/**
+ * @brief Check if the player is on the exit.
+ * @param game game to check.
+ * @return 1 if the player is on the exit, 0 if not.
+ */
 int		player_on_exit (t_game *g);
+
+/**
+ * @brief Set the player position.
+ * @param game game to set the player position for.
+ * @param pos position to set the player to.
+ */
 int		move_player(t_game *game, int direction);
+
+/**
+ * @brief Set the player position.
+ * @param game game to set the player position for.
+ * @param pos position to set the player to.
+ * 
+ * Used by move_player.
+ */
 void	set_player_pos(t_game *game, t_position pos);
 
 /**
@@ -213,27 +287,61 @@ int	init_end_screen(t_game *g);
  */
 void		update_step_counter(t_game *g);
 
+/**
+ * @brief Creates a new text image centered on the position.
+ * @param str string to create the image from.
+ * @param g game to create the image for.
+ * @param pos position to center the image on.
+ * @return The created image.
+ */
 mlx_image_t	*center_txt(char *str, t_game *g, t_position pos);
 
 /**
- * 
+ * @brief Handle the pause menu.
  */
 void	game_pause_hook(void *param);
 
 /**
- * 
+ * @brief Pause / Unpause the game.
+ * @param game game to pause / unpause.
+ * @param status 1 to pause, 0 to unpause.
  */
 int		game_pause(t_game *game, int status);
 
+/**
+ * @brief Handles running code from pause menu selection.
+ */
 void	handle_choice(t_game *g);
+
+/**
+ * @brief Handles moving the selector in the pause menu.
+ */
 void	handle_menu_selection(t_game *g);
 
+/**
+ * @brief Dummy function for use in lstclear.
+ */
 void	dummy_clr(void *content);
 
+/**
+ * @brief Reset the game.
+ * @param g game to reset.
+ * @return 1 if successful, 0 if not.
+ * 
+ * This will reset the game, but will not do any memory management!
+ */
 int		reset_game(t_game *g);
 
+/**
+ * @brief Destroy the pause menu
+ */
 int		destroy_pause(t_game *g);
 
+/**
+ * @brief Center the viewport on the given position.
+ * @param v viewport to center.
+ * @param p position to center on.
+ */
 void center_viewport(t_viewprt *v, t_position p);
 
 #endif
